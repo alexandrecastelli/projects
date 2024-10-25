@@ -1,6 +1,7 @@
 # python -m venv .venv
 # source .venv/bin/activate
 # deactivate
+# streamlit run app.py
 
 import streamlit as st
 import pandas as pd
@@ -8,8 +9,11 @@ import numpy as np
 import time
 
 st.set_page_config(
-    page_title="Hello",
-    page_icon="👋",
+    page_title="Master League 1",
+    page_icon=":racing_car:",
+    menu_items={'Get Help': 'mailto:john@example.com',
+                'Report a bug': 'mailto:john@example.com',
+                'About': 'text'}
 )
 
 st.write("# Welcome to Streamlit! 👋")
