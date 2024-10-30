@@ -8,39 +8,42 @@ import pandas as pd
 import numpy as np
 import time
 import os
+import gdown
 
 st.set_page_config(
-    page_title="Master League 1",
-    page_icon=":racing_car:",
+    page_title='Master League 1',
+    page_icon='/workspaces/projects/ml1/images/ml1.png',
+    layout='wide',
+    initial_sidebar_state='collapsed',
     menu_items={'Get Help': 'mailto:john@example.com',
                 'Report a bug': 'mailto:john@example.com',
                 'About': 'text'}
 )
 
-st.logo("/workspaces/projects/ml1/images/ml1.png", size='large')
+# st.logo('/workspaces/projects/ml1/images/ml1.png', size='large')
 
-data = pd.read_excel("/workspaces/projects/ml1/ml1.xlsx", sheet_name="Data")
-tracks = pd.read_excel("/workspaces/projects/ml1/ml1.xlsx", sheet_name="Tracks")
-settings = pd.read_excel("/workspaces/projects/ml1/ml1.xlsx", sheet_name="Settings")
-text = pd.read_excel("/workspaces/projects/ml1/ml1.xlsx", sheet_name="Text")
-pr = pd.read_excel("/workspaces/projects/ml1/ml1.xlsx", sheet_name="PR")
+gdown.download('https://docs.google.com/spreadsheets/d/1anYsLCtlv3PCFzfaq2E_qOMKSzR1biQy/export?format=xlsx', 'ml1.xlsx')
 
-add_selectbox = st.sidebar.selectbox(
-    'Contato', 
-    ('Email', 'Home phone', 'Mobile phone')
-    )
+data = pd.read_excel('/workspaces/projects/ml1/ml1.xlsx', sheet_name='Data')
+tracks = pd.read_excel('/workspaces/projects/ml1/ml1.xlsx', sheet_name='Tracks')
+settings = pd.read_excel('/workspaces/projects/ml1/ml1.xlsx', sheet_name='Settings')
+text = pd.read_excel('/workspaces/projects/ml1/ml1.xlsx', sheet_name='Text')
+pr = pd.read_excel('/workspaces/projects/ml1/ml1.xlsx', sheet_name='PR')
 
+# add_selectbox = st.sidebar.selectbox(
+#     'Contato', 
+#     ('Email', 'Home phone', 'Mobile phone')
+#     )
 
-add_slider = st.sidebar.slider(
-    "Seleciona um valor", 
-    0.0, 100.0, (25.0, 75.0)
-    )
+# add_slider = st.sidebar.slider(
+#     'Seleciona um valor', 
+#     0.0, 100.0, (25.0, 75.0)
+#     )
 
-
-st.write("# Welcome to ML1! 👋")
+st.write('# Welcome to ML1! 👋')
 
 st.markdown(
-    """
+    '''
     Streamlit is an open-source app framework built specifically for
     Machine Learning and Data Science projects.
     **👈 Select a demo from the sidebar** to see some examples
@@ -54,5 +57,5 @@ st.markdown(
     - Use a neural net to [analyze the Udacity Self-driving Car Image
         Dataset](https://github.com/streamlit/demo-self-driving)
     - Explore a [New York City rideshare dataset](https://github.com/streamlit/demo-uber-nyc-pickups)
-"""
+'''
 )
