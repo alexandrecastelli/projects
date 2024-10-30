@@ -19,8 +19,11 @@ st.set_page_config(
 
 st.logo("/workspaces/projects/ml1/images/ml1.png", size='large')
 
-ml1 = pd.read_excel("/workspaces/projects/ml1/ml1.xlsx")
-
+data = pd.read_excel("/workspaces/projects/ml1/ml1.xlsx", sheet_name="Data")
+tracks = pd.read_excel("/workspaces/projects/ml1/ml1.xlsx", sheet_name="Tracks")
+settings = pd.read_excel("/workspaces/projects/ml1/ml1.xlsx", sheet_name="Settings")
+text = pd.read_excel("/workspaces/projects/ml1/ml1.xlsx", sheet_name="Text")
+pr = pd.read_excel("/workspaces/projects/ml1/ml1.xlsx", sheet_name="PR")
 
 add_selectbox = st.sidebar.selectbox(
     'Contato', 
