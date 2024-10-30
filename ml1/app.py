@@ -22,40 +22,90 @@ st.set_page_config(
 
 # st.logo('/workspaces/projects/ml1/images/ml1.png', size='large')
 
-gdown.download('https://docs.google.com/spreadsheets/d/1anYsLCtlv3PCFzfaq2E_qOMKSzR1biQy/export?format=xlsx', 'ml1.xlsx')
+# gdown.download('https://docs.google.com/spreadsheets/d/1anYsLCtlv3PCFzfaq2E_qOMKSzR1biQy/export?format=xlsx', 'ml1.xlsx')
 
-data = pd.read_excel('/workspaces/projects/ml1/ml1.xlsx', sheet_name='Data')
-tracks = pd.read_excel('/workspaces/projects/ml1/ml1.xlsx', sheet_name='Tracks')
-settings = pd.read_excel('/workspaces/projects/ml1/ml1.xlsx', sheet_name='Settings')
-text = pd.read_excel('/workspaces/projects/ml1/ml1.xlsx', sheet_name='Text')
-pr = pd.read_excel('/workspaces/projects/ml1/ml1.xlsx', sheet_name='PR')
+dados = pd.read_excel('/workspaces/projects/ml1/ml1.xlsx', sheet_name='data')
+pistas = pd.read_excel('/workspaces/projects/ml1/ml1.xlsx', sheet_name='tracks')
+configurações = pd.read_excel('/workspaces/projects/ml1/ml1.xlsx', sheet_name='settings')
+textos = pd.read_excel('/workspaces/projects/ml1/ml1.xlsx', sheet_name='text')
+pr = pd.read_excel('/workspaces/projects/ml1/ml1.xlsx', sheet_name='pr')
 
-# add_selectbox = st.sidebar.selectbox(
-#     'Contato', 
-#     ('Email', 'Home phone', 'Mobile phone')
-#     )
 
-# add_slider = st.sidebar.slider(
-#     'Seleciona um valor', 
-#     0.0, 100.0, (25.0, 75.0)
-#     )
 
-st.write('# Welcome to ML1! 👋')
+# colunas sempre minúsculas
+dados.columns = dados.columns.str.lower()
 
-st.markdown(
-    '''
-    Streamlit is an open-source app framework built specifically for
-    Machine Learning and Data Science projects.
-    **👈 Select a demo from the sidebar** to see some examples
-    of what Streamlit can do!
-    ### Want to learn more?
-    - Check out [streamlit.io](https://streamlit.io)
-    - Jump into our [documentation](https://docs.streamlit.io)
-    - Ask a question in our [community
-        forums](https://discuss.streamlit.io)
-    ### See more complex demos
-    - Use a neural net to [analyze the Udacity Self-driving Car Image
-        Dataset](https://github.com/streamlit/demo-self-driving)
-    - Explore a [New York City rideshare dataset](https://github.com/streamlit/demo-uber-nyc-pickups)
-'''
-)
+# dados = dados.rename(columns={'A': 'Alpha', 
+#                               'B': 'Bravo', 
+#                               'C': 'Charlie'})
+
+# de acordo com a preferência do usuário
+dados = dados.applymap(lambda x: x.upper() if isinstance(x, str) else x)
+
+dados['principal pontos'] = np.select([dados['principal'] == 1,
+                            dados['principal'] == 2,
+                            dados['principal'] == 3,
+                            dados['principal'] == 4,
+                            dados['principal'] == 5,
+                            dados['principal'] == 6,
+                            dados['principal'] == 7,
+                            dados['principal'] == 8,
+                            dados['principal'] == 9,
+                            dados['principal'] == 10,
+                            dados['principal'] >= 11],
+                            [25,
+                             18,
+                             15,
+                             12,
+                             10,
+                             8,
+                             6,
+                             4,
+                             2,
+                             1,
+                             0])
+
+dados['sprint pontos'] = np.select([dados['sprint'] == 1,
+                            dados['sprint'] == 2,
+                            dados['sprint'] == 3,
+                            dados['sprint'] == 4,
+                            dados['sprint'] == 5,
+                            dados['sprint'] == 6,
+                            dados['sprint'] == 7,
+                            dados['sprint'] == 8,
+                            dados['sprint'] >= 9],
+                            [8,
+                             7,
+                             6,
+                             5,
+                             4,
+                             3,
+                             2,
+                             1,
+                             0])
+
+dados['pontos'] = dados['principal pontos'] + dados['sprint pontos']    
+
+dados.drop(columns=['principal pontos', 'sprint pontos'], inplace=True)
+
+col1, col2, col3 = st.columns(3)
+
+with col1:
+    temporada = st.selectbox(
+        'temporada',
+        dados['temporada'].unique()
+        )
+
+with col2:
+    tabela = st.selectbox(
+        'tabela',
+        ['etapas','pilotos','equipes','construtores','pr'], 
+        )
+
+with col3:
+    auxiliar = st.selectbox(
+        'opção',
+        ['1','2','3','4'], 
+        )
+
+st.dataframe(dados[dados['temporada'] == temporada], hide_index=True, use_container_width=True)
