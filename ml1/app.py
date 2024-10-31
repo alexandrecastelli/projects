@@ -249,6 +249,8 @@ with col3:
         ['1','2','3','4']
         )
 
+dados['piloto'] = dados['piloto'] + '🥇'
+
 if temporada == 'todas':
     st.dataframe(dados, hide_index=True, use_container_width=True)
 else:
