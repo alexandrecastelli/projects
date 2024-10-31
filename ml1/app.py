@@ -39,6 +39,8 @@ dados.columns = dados.columns.str.lower()
 #                               'B': 'Bravo', 
 #                               'C': 'Charlie'})
 
+# dados.columns = ['temporada', 'etapa', 'piloto', 'equipe', 'construtor', 'principal', 'sprint', 'pontos']
+
 # de acordo com a preferência do usuário
 dados = dados.applymap(lambda x: x.upper() if isinstance(x, str) else x)
 
