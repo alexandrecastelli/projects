@@ -22,15 +22,13 @@ st.set_page_config(
 
 # st.logo('/workspaces/projects/ml1/images/ml1.png', size='large')
 
-# gdown.download('https://docs.google.com/spreadsheets/d/1anYsLCtlv3PCFzfaq2E_qOMKSzR1biQy/export?format=xlsx', 'ml1.xlsx')
+# gdown.download('https://docs.google.com/spreadsheets/d/1anYsLCtlv3PCFzfaq2E_qOMKSzR1biQy/export?format=xlsx', 'ml1/ml1.xlsx')
 
 dados = pd.read_excel('/workspaces/projects/ml1/ml1.xlsx', sheet_name='data')
 pistas = pd.read_excel('/workspaces/projects/ml1/ml1.xlsx', sheet_name='tracks')
 configurações = pd.read_excel('/workspaces/projects/ml1/ml1.xlsx', sheet_name='settings')
 textos = pd.read_excel('/workspaces/projects/ml1/ml1.xlsx', sheet_name='text')
 pr = pd.read_excel('/workspaces/projects/ml1/ml1.xlsx', sheet_name='pr')
-
-
 
 # colunas sempre minúsculas
 dados.columns = dados.columns.str.lower()
