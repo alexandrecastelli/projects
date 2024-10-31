@@ -111,7 +111,7 @@ print(5 ** 3)
 # Toda vez que iniciar o Spyder será necessário carregar os pacotes em uso
 # Caso contrário, se tentar utilizar uma função de um pacote não carregado:
 
-print(math.sqrt(144))
+# print(math.sqrt(144))
 
 # Ocorre um erro! O erro é mostrado ao lado e também é reportado no console
 
