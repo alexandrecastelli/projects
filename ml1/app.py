@@ -46,9 +46,9 @@ def iniciar():
                                 'Best Lap': 'melhor volta'})
 
     dados['data'] = pd.to_datetime(dados['data']).dt.strftime('%d-%m-%Y')
-    # dados['temporada'] = dados['temporada'].astype(str)
+    # dados['temporada'] = dados['temporada'].astype(int)
 
-    dados = dados.applymap(lambda x: x.lower() if isinstance(x, str) else x)
+    dados = dados.map(lambda x: x.lower() if isinstance(x, str) else x)
 
     dados['principal pontos'] = np.select([dados['principal'] == 1,
                                 dados['principal'] == 2,
@@ -229,29 +229,37 @@ dados, pistas, configurações, textos, pr = iniciar()
 
 # de acordo com a preferência do usuário
 
-col1, col2, col3 = st.columns(3)
+col1, col2, col3, col4 = st.columns(4)
 
 with col1:
-    temporada = st.selectbox(
-        'temporada',
-        np.append(sorted(dados['temporada'].unique(), reverse=True), 'todas')
+    temporadas = st.selectbox(
+        'temporadas',
+        pd.Series(dados['temporada'].unique()).dropna()
         )
 
 with col2:
-    tabela = st.selectbox(
-        'tabela',
-        ['etapas','pilotos','equipes','construtores','pr']
+    pilotos = st.selectbox(
+        'pilotos',
+        pd.Series(dados['piloto'].unique()).dropna()
         )
 
 with col3:
-    auxiliar = st.selectbox(
-        'opção',
-        ['1','2','3','4']
+    equipes = st.selectbox(
+        'equipes',
+        pd.Series(dados['equipe'].unique()).dropna()        
+        )
+    
+with col4:
+    grande_premio = st.selectbox(
+        'grande prêmio',
+        dados['grande prêmio'].unique().dropna()      
         )
 
 dados['piloto'] = dados['piloto'] + '🥇'
 
-if temporada == 'todas':
-    st.dataframe(dados, hide_index=True, use_container_width=True)
-else:
-    st.dataframe(dados[dados['temporada'].astype(str) == temporada], hide_index=True, use_container_width=True)
+# if temporada == 'todas':
+#     st.dataframe(dados, hide_index=True, use_container_width=True)
+# else:
+#     st.dataframe(dados[dados['temporada'].astype(str) == temporada], hide_index=True, use_container_width=True)
+
+st.dataframe(dados.query('temporada == @temporadas & piloto == @pilotos'), hide_index=True, use_container_width=True)
