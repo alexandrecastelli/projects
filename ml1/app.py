@@ -25,241 +25,227 @@ st.set_page_config(
 def iniciar():
     # gdown.download('https://docs.google.com/spreadsheets/d/1anYsLCtlv3PCFzfaq2E_qOMKSzR1biQy/export?format=xlsx', 'ml1/ml1.xlsx')
 
-    dados = pd.read_excel('/workspaces/projects/ml1/ml1.xlsx', sheet_name='Data')
-    pistas = pd.read_excel('/workspaces/projects/ml1/ml1.xlsx', sheet_name='Tracks')
-    configurações = pd.read_excel('/workspaces/projects/ml1/ml1.xlsx', sheet_name='Settings')
-    textos = pd.read_excel('/workspaces/projects/ml1/ml1.xlsx', sheet_name='Text')
-    pr = pd.read_excel('/workspaces/projects/ml1/ml1.xlsx', sheet_name='PR')
+    calendarios = pd.read_excel('/workspaces/projects/ml1/ml1.xlsx', sheet_name='calendarios')
+    circuitos = pd.read_excel('/workspaces/projects/ml1/ml1.xlsx', sheet_name='circuitos')
+    configuracoes = pd.read_excel('/workspaces/projects/ml1/ml1.xlsx', sheet_name='configuracoes')
+    pr = pd.read_excel('/workspaces/projects/ml1/ml1.xlsx', sheet_name='pr')
+    resultados = pd.read_excel('/workspaces/projects/ml1/ml1.xlsx', sheet_name='resultados')
+    resumos = pd.read_excel('/workspaces/projects/ml1/ml1.xlsx', sheet_name='resumos')
 
-    # renomeia as colunas
-    dados = dados.rename(columns={'Date': 'data', 
-                                'Version': 'versão', 
-                                'Performance': 'desempenho',
-                                'Season': 'temporada',
-                                'Round': 'etapa',
-                                'Grand Prix': 'grande prêmio',
-                                'Qualifying': 'classificação',
-                                'Sprint': 'sprint',
-                                'Race': 'principal',
-                                'Driver': 'piloto',
-                                'Team': 'equipe',
-                                'Best Lap': 'melhor volta'})
+    calendarios['data'] = pd.to_datetime(calendarios['data']).dt.strftime('%d-%m-%Y')
 
-    dados['data'] = pd.to_datetime(dados['data']).dt.strftime('%d-%m-%Y')
-    # dados['temporada'] = dados['temporada'].astype(int)
+    # resultados = resultados.map(lambda x: x.upper() if isinstance(x, str) else x)
 
-    dados = dados.map(lambda x: x.lower() if isinstance(x, str) else x)
+    resultados = calendarios.merge(resultados, on=['temporada','etapa'], how='left').drop(columns=['data','versao','desempenho'])
 
-    dados['principal pontos'] = np.select([dados['principal'] == 1,
-                                dados['principal'] == 2,
-                                dados['principal'] == 3,
-                                dados['principal'] == 4,
-                                dados['principal'] == 5,
-                                dados['principal'] == 6,
-                                dados['principal'] == 7,
-                                dados['principal'] == 8,
-                                dados['principal'] == 9,
-                                dados['principal'] == 10,
-                                dados['principal'] >= 11],
-                                [25,
-                                18,
-                                15,
-                                12,
-                                10,
-                                8,
-                                6,
-                                4,
-                                2,
-                                1,
-                                0])
+    resultados['sprint_pontos'] = np.select([resultados['sprint'] == 1,
+                                         resultados['sprint'] == 2,
+                                         resultados['sprint'] == 3,
+                                         resultados['sprint'] == 4,
+                                         resultados['sprint'] == 5,
+                                         resultados['sprint'] == 6,
+                                         resultados['sprint'] == 7,
+                                         resultados['sprint'] == 8,
+                                         resultados['sprint'] >= 9],
+                                         [8,
+                                          7,
+                                          6,
+                                          5,
+                                          4,
+                                          3,
+                                          2,
+                                          1,
+                                          0])
 
-    dados['sprint pontos'] = np.select([dados['sprint'] == 1,
-                                dados['sprint'] == 2,
-                                dados['sprint'] == 3,
-                                dados['sprint'] == 4,
-                                dados['sprint'] == 5,
-                                dados['sprint'] == 6,
-                                dados['sprint'] == 7,
-                                dados['sprint'] == 8,
-                                dados['sprint'] >= 9],
-                                [8,
-                                7,
-                                6,
-                                5,
-                                4,
-                                3,
-                                2,
-                                1,
-                                0])
+    resultados['principal_pontos'] = np.select([resultados['principal'] == 1,
+                                            resultados['principal'] == 2,
+                                            resultados['principal'] == 3,
+                                            resultados['principal'] == 4,
+                                            resultados['principal'] == 5,
+                                            resultados['principal'] == 6,
+                                            resultados['principal'] == 7,
+                                            resultados['principal'] == 8,
+                                            resultados['principal'] == 9,
+                                            resultados['principal'] == 10,
+                                            resultados['principal'] >= 11],
+                                            [25,
+                                            18,
+                                            15,
+                                            12,
+                                            10,
+                                            8,
+                                            6,
+                                            4,
+                                            2,
+                                            1,
+                                            0])                            
 
-    dados['pontos'] = dados['principal pontos'] + dados['sprint pontos']    
+    resultados['pontos'] = resultados['principal_pontos'] + resultados['sprint_pontos']    
 
-    dados.drop(columns=['principal pontos', 'sprint pontos'], inplace=True)
+    resultados.drop(columns=['principal_pontos', 'sprint_pontos'], inplace=True)
 
-    dados['principal pr'] = np.select([dados['principal'] == 1,
-                                    dados['principal'] == 2,                                    
-                                    dados['principal'] == 3,
-                                    dados['principal'] == 4,
-                                    dados['principal'] == 5,
-                                    dados['principal'] == 6,
-                                    dados['principal'] == 7,
-                                    dados['principal'] == 8,
-                                    dados['principal'] == 9,
-                                    dados['principal'] == 10,
-                                    dados['principal'] == 11,
-                                    dados['principal'] == 12,
-                                    dados['principal'] == 13,
-                                    dados['principal'] == 14,
-                                    dados['principal'] == 15,
-                                    dados['principal'] == 16,
-                                    dados['principal'] == 17,
-                                    dados['principal'] == 18,
-                                    dados['principal'] == 19,
-                                    dados['principal'] == 20],
-                                    [9*20,
-                                        9*19,
-                                        9*18,
-                                        9*17,
-                                        9*16,
-                                        9*15,
-                                        9*14,
-                                        9*13,
-                                        9*12,
-                                        9*11,
-                                        9*10,
-                                        9*9,
-                                        9*8,
-                                        9*7,
-                                        9*6,
-                                        9*5,
-                                        9*4,
-                                        9*3,
-                                        9*2,
-                                        9*1])
+    resultados['classificacao_pr'] = np.select([resultados['classificacao'] == 1,
+                                            resultados['classificacao'] == 2,
+                                            resultados['classificacao'] == 3,
+                                            resultados['classificacao'] == 4,
+                                            resultados['classificacao'] == 5,
+                                            resultados['classificacao'] == 6,
+                                            resultados['classificacao'] == 7,
+                                            resultados['classificacao'] == 8,
+                                            resultados['classificacao'] == 9,
+                                            resultados['classificacao'] == 10,
+                                            resultados['classificacao'] == 11,
+                                            resultados['classificacao'] == 12,
+                                            resultados['classificacao'] == 13,
+                                            resultados['classificacao'] == 14,
+                                            resultados['classificacao'] == 15,
+                                            resultados['classificacao'] == 16,
+                                            resultados['classificacao'] == 17,
+                                            resultados['classificacao'] == 18,
+                                            resultados['classificacao'] == 19,
+                                            resultados['classificacao'] == 20],
+                                            [20,
+                                            19,
+                                            18,
+                                            17,
+                                            16,
+                                            15,
+                                            14,
+                                            13,
+                                            12,
+                                            11,
+                                            10,
+                                            9,
+                                            8,
+                                            7,
+                                            6,
+                                            5,
+                                            4,
+                                            3,
+                                            2,
+                                            1])
 
-    dados['sprint pr'] = np.select([dados['sprint'] == 1,
-                                    dados['sprint'] == 2,
-                                    dados['sprint'] == 3,
-                                    dados['sprint'] == 4,
-                                    dados['sprint'] == 5,
-                                    dados['sprint'] == 6,
-                                    dados['sprint'] == 7,
-                                    dados['sprint'] == 8,
-                                    dados['sprint'] == 9,
-                                    dados['sprint'] == 10,
-                                    dados['sprint'] == 11,
-                                    dados['sprint'] == 12,
-                                    dados['sprint'] == 13,
-                                    dados['sprint'] == 14,
-                                    dados['sprint'] == 15,
-                                    dados['sprint'] == 16,
-                                    dados['sprint'] == 17,
-                                    dados['sprint'] == 18,
-                                    dados['sprint'] == 19,
-                                    dados['sprint'] == 20],
-                                    [3*20,
-                                    3*19,
-                                    3*18,
-                                    3*17,
-                                    3*16,
-                                    3*15,
-                                    3*14,
-                                    3*13,
-                                    3*12,
-                                    3*11,
-                                    3*10,
-                                    3*9,
-                                    3*8,
-                                    3*7,
-                                    3*6,
-                                    3*5,
-                                    3*4,
-                                    3*3,
-                                    3*2,
-                                    3*1])
+    resultados['sprint_pr'] = np.select([resultados['sprint'] == 1,
+                                     resultados['sprint'] == 2,
+                                     resultados['sprint'] == 3,
+                                     resultados['sprint'] == 4,
+                                     resultados['sprint'] == 5,
+                                     resultados['sprint'] == 6,
+                                     resultados['sprint'] == 7,
+                                     resultados['sprint'] == 8,
+                                     resultados['sprint'] == 9,
+                                     resultados['sprint'] == 10,
+                                     resultados['sprint'] == 11,
+                                     resultados['sprint'] == 12,
+                                     resultados['sprint'] == 13,
+                                     resultados['sprint'] == 14,
+                                     resultados['sprint'] == 15,
+                                     resultados['sprint'] == 16,
+                                     resultados['sprint'] == 17,
+                                     resultados['sprint'] == 18,
+                                     resultados['sprint'] == 19,
+                                     resultados['sprint'] == 20],
+                                     [3*20,
+                                     3*19,
+                                     3*18,
+                                     3*17,
+                                     3*16,
+                                     3*15,
+                                     3*14,
+                                     3*13,
+                                     3*12,
+                                     3*11,
+                                     3*10,
+                                     3*9,
+                                     3*8,
+                                     3*7,
+                                     3*6,
+                                     3*5,
+                                     3*4,
+                                     3*3,
+                                     3*2,
+                                     3*1])
 
-    dados['classificação pr'] = np.select([dados['classificação'] == 1,
-                                        dados['classificação'] == 2,
-                                        dados['classificação'] == 3,
-                                        dados['classificação'] == 4,
-                                        dados['classificação'] == 5,
-                                        dados['classificação'] == 6,
-                                        dados['classificação'] == 7,
-                                        dados['classificação'] == 8,
-                                        dados['classificação'] == 9,
-                                        dados['classificação'] == 10,
-                                        dados['classificação'] == 11,
-                                        dados['classificação'] == 12,
-                                        dados['classificação'] == 13,
-                                        dados['classificação'] == 14,
-                                        dados['classificação'] == 15,
-                                        dados['classificação'] == 16,
-                                        dados['classificação'] == 17,
-                                        dados['classificação'] == 18,
-                                        dados['classificação'] == 19,
-                                        dados['classificação'] == 20],
-                                        [20,
-                                        19,
-                                        18,
-                                        17,
-                                        16,
-                                        15,
-                                        14,
-                                        13,
-                                        12,
-                                        11,
-                                        10,
-                                        9,
-                                        8,
-                                        7,
-                                        6,
-                                        5,
-                                        4,
-                                        3,
-                                        2,
-                                        1])
+    resultados['principal_pr'] = np.select([resultados['principal'] == 1,
+                                        resultados['principal'] == 2,                                    
+                                        resultados['principal'] == 3,
+                                        resultados['principal'] == 4,
+                                        resultados['principal'] == 5,
+                                        resultados['principal'] == 6,
+                                        resultados['principal'] == 7,
+                                        resultados['principal'] == 8,
+                                        resultados['principal'] == 9,
+                                        resultados['principal'] == 10,
+                                        resultados['principal'] == 11,
+                                        resultados['principal'] == 12,
+                                        resultados['principal'] == 13,
+                                        resultados['principal'] == 14,
+                                        resultados['principal'] == 15,
+                                        resultados['principal'] == 16,
+                                        resultados['principal'] == 17,
+                                        resultados['principal'] == 18,
+                                        resultados['principal'] == 19,
+                                        resultados['principal'] == 20],
+                                        [9*20,
+                                         9*19,
+                                         9*18,
+                                         9*17,
+                                         9*16,
+                                         9*15,
+                                         9*14,
+                                         9*13,
+                                         9*12,
+                                         9*11,
+                                         9*10,
+                                         9*9,
+                                         9*8,
+                                         9*7,
+                                         9*6,
+                                         9*5,
+                                         9*4,
+                                         9*3,
+                                         9*2,
+                                         9*1])
 
-    dados['pr'] = dados['principal pr'] + dados['sprint pr'] + dados['classificação pr']   
+    resultados['pr'] = resultados['principal_pr'] + resultados['sprint_pr'] + resultados['classificacao_pr']   
 
-    dados.drop(columns=['principal pr', 'sprint pr', 'classificação pr'], inplace=True)
+    resultados.drop(columns=['principal_pr', 'sprint_pr', 'classificacao_pr'], inplace=True)
 
-    return dados, pistas, configurações, textos, pr
+    return calendarios, circuitos, configuracoes, pr, resultados, resumos
 
-dados, pistas, configurações, textos, pr = iniciar()
+calendarios, circuitos, configuracoes, pr, resultados, resumos = iniciar()
 
 # de acordo com a preferência do usuário
 
-col1, col2, col3, col4 = st.columns(4)
+col1, col2, col3 = st.columns(3)
 
 with col1:
-    temporadas = st.selectbox(
-        'temporadas',
-        pd.Series(dados['temporada'].unique()).dropna()
+    temporada_selecionada = st.selectbox(
+        '',
+        resultados['temporada'].unique()
         )
 
 with col2:
-    pilotos = st.selectbox(
-        'pilotos',
-        pd.Series(dados['piloto'].unique()).dropna()
+    tabela_selecionada = st.selectbox(
+        '',
+        ['Corridas', 'Pilotos', 'Equipes', 'Power Ranking']
         )
 
 with col3:
-    equipes = st.selectbox(
-        'equipes',
-        pd.Series(dados['equipe'].unique()).dropna()        
-        )
-    
-with col4:
-    grande_premio = st.selectbox(
-        'grande prêmio',
-        dados['grande prêmio'].unique().dropna()      
+    opcao_selecionada = st.selectbox(
+        '',
+        resultados.query('temporada == @temporada_selecionada')['corrida'].unique() if tabela_selecionada == 'Corridas'
+        else resultados.query('temporada == @temporada_selecionada')['piloto'].unique() if tabela_selecionada == 'Pilotos' or tabela_selecionada == 'Power Ranking'
+        else resultados.query('temporada == @temporada_selecionada')['equipe'].unique()
         )
 
-dados['piloto'] = dados['piloto'] + '🥇'
+# resultados['piloto'] = resultados['piloto'] + '🥇'
 
-# if temporada == 'todas':
-#     st.dataframe(dados, hide_index=True, use_container_width=True)
-# else:
-#     st.dataframe(dados[dados['temporada'].astype(str) == temporada], hide_index=True, use_container_width=True)
-
-st.dataframe(dados.query('temporada == @temporadas & piloto == @pilotos'), hide_index=True, use_container_width=True)
+if tabela_selecionada == 'Corridas':
+    st.dataframe(resultados.query('temporada == @temporada_selecionada'), hide_index=True, use_container_width=True)
+elif tabela_selecionada == 'Pilotos':
+    st.dataframe(resultados.query('temporada == @temporada_selecionada'), hide_index=True, use_container_width=True)
+elif tabela_selecionada == 'Equipes':
+    st.dataframe(resultados.query('temporada == @temporada_selecionada'), hide_index=True, use_container_width=True)
+elif tabela_selecionada == 'Power Ranking':
+    st.dataframe(resultados.query('temporada == @temporada_selecionada'), hide_index=True, use_container_width=True)
