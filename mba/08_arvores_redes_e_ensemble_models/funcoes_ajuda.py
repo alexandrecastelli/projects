@@ -16,7 +16,7 @@ import seaborn as sns
 
 import matplotlib.pyplot as plt
 
-def descritiva(df_, var, vresp='survived', max_classes=5):
+def descritiva(df_, var, vresp='survived', max_classes=5, titulo=None):
     """
     Gera um gráfico descritivo da taxa de sobreviventes por categoria da variável especificada.
     
@@ -42,7 +42,8 @@ def descritiva(df_, var, vresp='survived', max_classes=5):
     
     ax1.set_zorder(2)
     ax1.patch.set_visible(False)  # Tornar o fundo do eixo 1 transparente
-    
+    if titulo == None:
+        ax1.set_title(f'Taxa de {vresp} por categoria de {var}')
     # Exibir o gráfico
     plt.show()
     
