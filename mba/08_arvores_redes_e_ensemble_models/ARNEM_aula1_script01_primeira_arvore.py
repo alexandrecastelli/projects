@@ -175,5 +175,3 @@ print('\n', classification_report(y, arvore.predict(X)))
 
 
 
-
-# %%
