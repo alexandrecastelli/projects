@@ -11,3 +11,4 @@ Created on Sun Dec  8 20:51:46 2024
 !pip install matplotlib
 !pip install seaborn
 !pip install scikit-learn
+# %%
