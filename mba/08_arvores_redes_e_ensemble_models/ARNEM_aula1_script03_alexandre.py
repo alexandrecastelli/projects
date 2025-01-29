@@ -3,7 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.model_selection import train_test_split
-from sklearn.tree import DecisionTreeClassifier
+from sklearn.tree import DecisionTreeClassifier, plot_tree
 from sklearn.metrics import roc_auc_score
 from funcoes_ajuda import descritiva, avalia_clf
 
@@ -23,7 +23,7 @@ X = df.drop(columns = ['inadimplencia'])
 y = df['inadimplencia']
 
 # define as bases de treino e teste
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=2360873)
 
 # confere o número de linhas e colunas
 print("X_train shape:", X_train.shape)
@@ -35,12 +35,19 @@ print("y_test shape:", y_test.shape)
 clf = DecisionTreeClassifier()
 clf.fit(X_train, y_train)
 
+# avalia a base de treino
+avalia_clf(clf, y_train, X_train, rótulos_y=['Bom', 'Mau'], base='treino')
+
+# avalia a base de teste
+avalia_clf(clf, y_test, X_test, rótulos_y=['Bom', 'Mau'], base='teste')
+
 # cost-complexity pruning path
 ccp_path = pd.DataFrame(clf.cost_complexity_pruning_path(X_train, y_train))
 
 # tunando a árvore
 GINIs = []
 
+# treino da árvore com diferentes valores de ccp_alpha
 for ccp in ccp_path['ccp_alphas']:
     clf = DecisionTreeClassifier(criterion='gini', max_depth=30, random_state=42, ccp_alpha=ccp)
 
@@ -50,49 +57,40 @@ for ccp in ccp_path['ccp_alphas']:
     GINI = (AUC-0.5)*2
     GINIs.append(GINI)
 
+# plota o gráfico
 sns.lineplot(x = ccp_path['ccp_alphas'], y = GINIs)
 
+# cria o dataframe de avaliações
 df_avaliacoes = pd.DataFrame({'ccp': ccp_path['ccp_alphas'], 'GINI': GINIs})
 
+# encontra o melhor parâmetro
 GINI_max = df_avaliacoes.GINI.max()
 ccp_max  = df_avaliacoes.loc[df_avaliacoes.GINI == GINI_max, 'ccp'].values[0]
 
+# cria o gráfico
 plt.ylabel('GINI da árvore')
 plt.xlabel('CCP Alphas')
 plt.title('Avaliação da árvore por valor de CCP-Alpha')
+plt.show()
 
+# mostra o melhor parâmetro
 print(f'O GINI máximo é de: {GINI_max:.2%}\nObtido com um ccp de: {ccp_max}')
 
 # árvore ótima
-clf = DecisionTreeClassifier(criterion='gini',
+clf_tuned = DecisionTreeClassifier(criterion='gini',
                                 max_depth = 30, 
                                 random_state=42,
                                 ccp_alpha=ccp_max).fit(X_train, y_train)
 
+# avalia a base de treino
+print('Avaliando a base de treino:')
+avalia_clf(clf_tuned, y_train, X_train, base='treino')
+
+# avalia a base de teste
+print('Avaliando a base de teste:')
+avalia_clf(clf_tuned, y_test, X_test, base='teste')
+
 # plota a árvore
 plt.figure(figsize=(20, 10))
-plot_tree(clf, feature_names=X.columns.tolist(), class_names=['Adimplente', 'Inadimplente'], filled=True)
+plot_tree(clf_tuned, feature_names=X.columns.tolist(), class_names=['Bom', 'Mau'], filled=True)
 plt.show()
-
-# confusion_matrix faz a comparação por uma tabela cruzada
-cm = confusion_matrix(y, clf.predict(X))
-
-# accuracy_score calcula o percentual de acertos
-ac = accuracy_score(y, clf.predict(X))
-
-# pondera para forçar a distribuição da target como uniforme
-bac = balanced_accuracy_score(y, clf.predict(X))
-
-# mostra os resultados
-print(f'\nA acurácia da árvore é: {ac:.1%}')
-print(f'A acurácia balanceada da árvore é: {bac:.1%}')
-
-# visualização gráfica
-sns.heatmap(cm, 
-            annot=True, fmt='d', cmap='viridis', 
-            xticklabels=['Adimplente', 'Inadimplente'], 
-            yticklabels=['Adimplente', 'Inadimplente'])
-plt.show()
-
-# relatório de classificação do scikit
-print('\n', classification_report(y, clf.predict(X)))
