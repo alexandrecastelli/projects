@@ -70,5 +70,4 @@ print(dados.head())
 dados.to_parquet('exercicio.parquet')
 
 #####################################################################################
-# Agora é a sua vez: Ajuste uma árvore de decisão, e explore os recursos que fizemos 
-# ao longo da aula nesta base de dados ;)
+# Agora é a sua vez: Ajuste uma árvore de decisão, e explore os recursos que fizemos ao longo da aula nesta base de dados ;)
