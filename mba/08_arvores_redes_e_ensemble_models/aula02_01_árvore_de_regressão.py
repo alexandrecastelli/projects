@@ -183,3 +183,5 @@ plt.ylabel('Valores Previstos')
 plt.title('Comparação entre Valores Reais e Previstos')
 plt.show()
 
+
+# %%
