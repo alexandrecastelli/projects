@@ -91,7 +91,7 @@ pandocfilters==1.5.1
 parso==0.8.4
 patsy==1.0.1
 pexpect==4.9.0
-pillow==11.1.0
+pillow==10.0.0
 platformdirs==4.3.6
 plotly==5.24.1
 pluggy==1.5.0
@@ -123,7 +123,7 @@ scikit-learn==1.6.1
 scipy==1.15.1
 seaborn==0.13.2
 Send2Trash==1.8.3
-setuptools==75.1.0
+setuptools==75.8.0
 shap==0.46.0
 six==1.17.0
 slicer==0.0.8

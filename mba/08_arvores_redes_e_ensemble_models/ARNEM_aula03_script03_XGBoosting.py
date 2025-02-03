@@ -50,7 +50,7 @@ param_grid = {
 import time
 tempo_ini = time.time()
 
-xgb = XGBClassifier(objective='binary:logistic', random_state=2360873)
+xgb = XGBClassifier(objective='binary:logistic', random_state=2360873, enable_categorical=False)
 grid_search = GridSearchCV(estimator=xgb, param_grid=param_grid, 
                            scoring='roc_auc', cv=10, verbose=0, n_jobs=-1)
 
