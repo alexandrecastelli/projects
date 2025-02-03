@@ -121,7 +121,7 @@ def graficos(df=df, y="y", x="x", r="r", p="p1", P='P1', ri='r1'):
     ax[2].legend()
     plt.show()
 
-graficos(df=df, y="y", x="x", r="r", p="p1", P='P1')
+graficos(df=df, y="y", x="x", r="r", p="p1", P='P1', ri='r1')
 
 
 #%% Segunda iteração do boosting
@@ -132,7 +132,7 @@ df['P2'] = df['P1'] + df['p2']
 df['r2'] = df['r1'] - df['p2']
 
 #%%
-graficos(df=df, y="y", x="x", r="r", p="p2", P='P2')
+graficos(df=df, y="y", x="x", r="r", p="p2", P='P2', ri='r2')
 
 #%% Terceira iteração do boosting
 tree2 = DecisionTreeRegressor(max_depth=2)
@@ -142,4 +142,4 @@ df['P3'] = df['P2'] + df['p3']
 df['r3'] = df['r2'] - df['p3']
 
 #%%
-graficos(df=df, y="y", x="x", r="r", p="p3", P='P3')
+graficos(df=df, y="y", x="x", r="r", p="p3", P='P3', ri='r3')

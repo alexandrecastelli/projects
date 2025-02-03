@@ -22,8 +22,6 @@ df = pd.read_csv('houses_to_rent.csv', index_col=0)
 
 df.info()
 
-df['property tax'] = df['property tax']
-
 #%%
 df['floor'] = df.floor.str.replace('-','NaN').astype('float64')
 for var in ['hoa', 'rent amount', 'property tax', 'fire insurance', 'total']:
