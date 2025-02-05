@@ -22,15 +22,7 @@ print(df.head())
 #%%  
 # Visualiza estatísticas das variáveis
 
-for column in df.columns:
-    print(f'\n\nAnálise univariada de {column}:')
-    print(df[column].describe())
-
-for column in df.columns:
-    print(f'\n\nFrequências da variável: {column}')
-    print(df[column].value_counts(dropna=False).sort_index())
-
-descriptive(df, 'survived', 'sex') # incluir um loop na função
+descriptive(df, 'survived', 'sex') # criar um for loop
 descriptive(df, 'survived', 'class')
 descriptive(df, 'survived', 'age')
 descriptive(df, 'survived', 'fare')
@@ -68,30 +60,15 @@ X = df.drop(columns=['survived'])
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=.25)
 
-print(X_train.shape)
-print(y_train.shape)
-print(X_test.shape)
-print(y_test.shape)
+print('X_train:', X_train.shape)
+print('y_train:', y_train.shape)
+print('X_test:', X_test.shape)
+print('y_test:', y_test.shape)
 
 #%% 
 # Define, treina e avalia o modelo
 
-clf = DecisionTreeClassifier(criterion='gini', 
-                             max_depth = 3, 
-                             random_state=42)
-
-clf.fit(X_train, y_train)
-
-evaluate(clf, y_train, X_train, base='treino')
-evaluate(clf, y_test, X_test, base='teste')
-
-#%% 
-# Define, treina e avalia o modelo
-
-clf = DecisionTreeClassifier(criterion='gini', 
-                             max_depth = 30,
-                             random_state=42,
-                             ccp_alpha=0)
+clf = DecisionTreeClassifier(random_state=42)
 
 # Treinar o modelo
 clf.fit(X_train, y_train)
@@ -110,9 +87,7 @@ ccp_path = pd.DataFrame(clf.cost_complexity_pruning_path(X_train, y_train))
 GINIs = []
 
 for ccp in ccp_path['ccp_alphas']:
-    clf = DecisionTreeClassifier(criterion='gini', 
-                                 max_depth = 30,
-                                 random_state=42,
+    clf = DecisionTreeClassifier(random_state=42,
                                  ccp_alpha=ccp)
 
     clf.fit(X_train, y_train)
@@ -124,21 +99,19 @@ sns.lineplot(x=ccp_path['ccp_alphas'], y=GINIs)
 
 df_avaliacoes = pd.DataFrame({'ccp':ccp_path['ccp_alphas'], 'GINI':GINIs})
 
-GINI = df_avaliacoes.GINI.max()
-ccp  = df_avaliacoes.loc[df_avaliacoes.GINI==GINI, 'ccp'].values[0]
+GINI_max = df_avaliacoes.GINI.max()
+ccp_best  = df_avaliacoes.loc[df_avaliacoes.GINI==GINI_max, 'ccp'].values[0]
 
 plt.ylabel('GINI da árvore')
 plt.xlabel('CCP Alphas')
 plt.title('Avaliação da árvore por valor de CCP-Alpha')
 
-print(f'O GINI máximo é de: {GINI:.2%}\nObtido com um CCP de: {ccp}')
+print(f'O GINI máximo é de: {GINI_max:.2%}\nObtido com um CCP de: {ccp_best}')
 
 #%% Define e avalia o modelo otimizado
 
-clf = DecisionTreeClassifier(criterion='gini', 
-                             max_depth = 30,
-                             random_state=42,
-                             ccp_alpha=ccp)
+clf = DecisionTreeClassifier(random_state=42,
+                             ccp_alpha=ccp_best)
 
 clf.fit(X_train, y_train)
 

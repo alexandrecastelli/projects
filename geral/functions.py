@@ -16,20 +16,20 @@ import seaborn as sns
 
 import matplotlib.pyplot as plt
 
-def descriptive(df, target, feature, max_classes=5):
+def descriptive(df, target, features, max_classes=5):
 
     df = df.copy()
     
-    if df[feature].nunique()>max_classes:
-        df[feature] = pd.qcut(df[feature], max_classes, duplicates='drop')
+    if df[features].nunique() > max_classes:
+        df[features] = pd.qcut(df[features], max_classes, duplicates='drop')
     
     fig, ax1 = plt.subplots(figsize=(10, 6))
     
-    sns.pointplot(data=df, y=target, x=feature, ax=ax1)
+    sns.pointplot(data=df, y=target, x=features, ax=ax1)
     
     # Criar o segundo eixo y para a taxa de sobreviventes
     ax2 = ax1.twinx()
-    sns.countplot(data=df, x=feature, palette='viridis', alpha=0.5, ax=ax2)
+    sns.countplot(data=df, x=features, palette='viridis', alpha=0.5, ax=ax2)
     ax2.set_ylabel('Frequência', color='blue')
     ax2.tick_params(axis='y', labelcolor='blue')
     
