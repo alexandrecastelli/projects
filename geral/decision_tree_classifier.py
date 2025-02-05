@@ -5,15 +5,11 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-from sklearn.metrics import (accuracy_score, 
-                             classification_report,
-                             confusion_matrix,
-                             balanced_accuracy_score)
+from sklearn.tree import DecisionTreeClassifier, plot_tree
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import roc_auc_score
 
-from sklearn.tree import DecisionTreeClassifier
-from sklearn.tree import plot_tree
-
-from functions import descriptive, missing
+from functions import descriptive, missing, evaluate
 
 #%%
 # Carrega os dados e visualiza informações do dataset
@@ -30,7 +26,7 @@ for column in df.columns:
     print(f'\n\nAnálise univariada de {column}:')
     print(df[column].describe())
 
-for column in ['pclass', 'sex', 'sibsp', 'parch', 'embarked', 'class', 'who', 'adult_male', 'deck', 'embark_town', 'alive', 'alone']:
+for column in df.columns:
     print(f'\n\nFrequências da variável: {column}')
     print(df[column].value_counts(dropna=False).sort_index())
 
@@ -57,68 +53,101 @@ df.drop(columns=['class', 'who', 'adult_male', 'deck', 'embark_town', 'alive', '
 #%% 
 # Transforma as variáveis strings em dummies e salva a base tratada
 
-df_dummies = pd.get_dummies(df, drop_first=True)
-print(df_dummies.info())
-print(df_dummies.head())
+df = pd.get_dummies(df, drop_first=True)
 
-df_dummies.to_pickle('titanic.pkl')
+print(df.info())
+print(df.head())
+
+df.to_pickle('titanic.pkl')
 
 #%%  
-# Define a target, as features e os hiperparâmetros e treina do modelo
+# Define a target, as features e as bases de teste e de treino
 
-y = df_dummies['survived']
-X = df_dummies.drop(columns = ['survived'])
+y = df['survived']
+X = df.drop(columns=['survived'])
 
-clf = DecisionTreeClassifier(criterion='gini', max_depth = 3, random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=.25)
 
-clf.fit(X, y)
+print(X_train.shape)
+print(y_train.shape)
+print(X_test.shape)
+print(y_test.shape)
+
+#%% 
+# Define, treina e avalia o modelo
+
+clf = DecisionTreeClassifier(criterion='gini', 
+                             max_depth = 3, 
+                             random_state=42)
+
+clf.fit(X_train, y_train)
+
+evaluate(clf, y_train, X_train, base='treino')
+evaluate(clf, y_test, X_test, base='teste')
+
+#%% 
+# Define, treina e avalia o modelo
+
+clf = DecisionTreeClassifier(criterion='gini', 
+                             max_depth = 30,
+                             random_state=42,
+                             ccp_alpha=0)
+
+# Treinar o modelo
+clf.fit(X_train, y_train)
+
+evaluate(clf, y_train, X_train, base='treino')
+evaluate(clf, y_test, X_test, base='teste')
+
+#%%
+# Define o Cost-Complexity Pruning Path para otimizar o modelo
+
+ccp_path = pd.DataFrame(clf.cost_complexity_pruning_path(X_train, y_train))
+
+#%% 
+# Otimiza o modelo
+
+GINIs = []
+
+for ccp in ccp_path['ccp_alphas']:
+    clf = DecisionTreeClassifier(criterion='gini', 
+                                 max_depth = 30,
+                                 random_state=42,
+                                 ccp_alpha=ccp)
+
+    clf.fit(X_train, y_train)
+    AUC = roc_auc_score(y_test, clf.predict_proba(X_test)[:, -1])
+    GINI = (AUC-0.5)*2
+    GINIs.append(GINI)
+
+sns.lineplot(x=ccp_path['ccp_alphas'], y=GINIs)
+
+df_avaliacoes = pd.DataFrame({'ccp':ccp_path['ccp_alphas'], 'GINI':GINIs})
+
+GINI = df_avaliacoes.GINI.max()
+ccp  = df_avaliacoes.loc[df_avaliacoes.GINI==GINI, 'ccp'].values[0]
+
+plt.ylabel('GINI da árvore')
+plt.xlabel('CCP Alphas')
+plt.title('Avaliação da árvore por valor de CCP-Alpha')
+
+print(f'O GINI máximo é de: {GINI:.2%}\nObtido com um CCP de: {ccp}')
+
+#%% Define e avalia o modelo otimizado
+
+clf = DecisionTreeClassifier(criterion='gini', 
+                             max_depth = 30,
+                             random_state=42,
+                             ccp_alpha=ccp)
+
+clf.fit(X_train, y_train)
+
+evaluate(clf, y_train, X_train, base='treino')
+evaluate(clf, y_test, X_test, base='teste')
 
 #%%  
 # Visualiza a árvore
 
 plt.figure(figsize=(20, 10))
-plot_tree(clf, feature_names=X.columns.tolist(), class_names=['Not Survived', 'Survived'], filled=True)
+plot_tree(clf, feature_names=X_test.columns.tolist(), class_names=['Not survived', 'Survived'], filled=True)
 plt.show()
-
-#%%
-# Classifica novos dados
-
-df_new = X.tail()
-print(df_new)
-
-clf_new = clf.predict(df_new)
-clf_new
-
-#%%  
-# Avalia a classificação
-
-clf_train = clf.predict(X)
-
-print(pd.crosstab(clf_train, y, margins=True))
-print(pd.crosstab(clf_train, y, normalize='index'))
-print(pd.crosstab(clf_train, y, normalize='columns'))
-
-hits = clf_train == y
-hits_pct = hits.sum()/hits.shape[0]
-print(f'Acurácia (taxa de acertos): {hits_pct:.2%}')
-
-#%% 
-
-# Cria a matriz de confusão e calcula a acurácia e a acurácia balanceada (força uma distribuição uniforme para a target)
-
-cm = confusion_matrix(y, clf.predict(X))
-ac = accuracy_score(y, clf.predict(X))
-bac = balanced_accuracy_score(y, clf.predict(X))
-
-print(f'\nA acurácia da árvore é: {ac:.1%}')
-print(f'A acurácia balanceada da árvore é: {bac:.1%}')
-
-#%%
-# Visualiza o mapa de calor da matriz de confusão
-
-sns.heatmap(cm, annot=True, fmt='d', cmap='viridis', 
-            xticklabels=['Não Sobreviveu', 'Sobreviveu'], 
-            yticklabels=['Não Sobreviveu', 'Sobreviveu'])
-plt.show()
-
-print('\n', classification_report(y, clf.predict(X)))

@@ -39,15 +39,15 @@ def descriptive(df, target, feature, max_classes=5):
     # Exibir o gráfico
     plt.show()
     
-def avalia_clf(clf, y, X, rótulos_y=['Não Sobreviveu', 'Sobreviveu'], base = 'treino'):
+def evaluate(clf, y, X, rótulos_y=['Not survived', 'Survived'], base='treino'):
     
-    # Calcular as classificações preditas
+    # Calcula as classificações previstas
     pred = clf.predict(X)
     
-    # Calcular a probabilidade de evento
+    # Calcula a probabilidade de evento
     y_prob = clf.predict_proba(X)[:, -1]
     
-    # Calculando acurácia e matriz de confusão
+    # Calcula a acurácia e a matriz de confusão
     cm = confusion_matrix(y, pred)
     ac = accuracy_score(y, pred)
     bac = balanced_accuracy_score(y, pred)
@@ -56,24 +56,26 @@ def avalia_clf(clf, y, X, rótulos_y=['Não Sobreviveu', 'Sobreviveu'], base = '
     print(f'A acurácia da árvore é: {ac:.1%}')
     print(f'A acurácia balanceada da árvore é: {bac:.1%}')
     
-    # Calculando AUC
+    # Calcula a AUC
     auc_score = roc_auc_score(y, y_prob)
     print(f"AUC-ROC: {auc_score:.2%}")
     print(f"GINI: {(2*auc_score-1):.2%}")
     
-    # Visualização gráfica
+    # Visualiza o gráfico
     sns.heatmap(cm, 
-                annot=True, fmt='d', cmap='viridis', 
+                annot=True, 
+                fmt='d', 
+                cmap='viridis', 
                 xticklabels=rótulos_y, 
                 yticklabels=rótulos_y)
     
-    # Relatório de classificação do Scikit
+    # Exibe o relatório de classificação
     print('\n', classification_report(y, pred))
     
-    # Gerar a Curva ROC
+    # Cria a curva ROC
     fpr, tpr, thresholds = roc_curve(y, y_prob)
     
-    # Plotar a Curva ROC
+    # Visualiza a curva ROC
     plt.figure(figsize=(8, 6))
     plt.plot(fpr, tpr, color='blue', label=f'Curva ROC (AUC = {auc_score:.2f})')
     plt.plot([0, 1], [0, 1], color='red', linestyle='--')  # Linha de referência (modelo aleatório)
