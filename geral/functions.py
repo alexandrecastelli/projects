@@ -8,8 +8,6 @@ Created on Sat Nov 16 21:03:50 2024
 #%%  funções de ajuda
 
 import pandas as pd
-import plotly.express as px
-import plotly.graph_objects as go
 
 from sklearn.metrics import accuracy_score, classification_report, \
     confusion_matrix, balanced_accuracy_score, roc_auc_score, roc_curve
@@ -18,62 +16,28 @@ import seaborn as sns
 
 import matplotlib.pyplot as plt
 
-# def descritiva(df_, var, vresp='survived', max_classes=5):
-#     """
-#     Gera um gráfico descritivo da taxa de sobreviventes por categoria da variável especificada.
-    
-#     Parâmetros:
-#     df : DataFrame - Base de dados a ser analisada.
-#     var : str - Nome da variável categórica a ser analisada.
-#     """
-    
-#     df = df_.copy()
-    
-#     if df[var].nunique()>max_classes:
-#         df[var] = pd.qcut(df[var], max_classes, duplicates='drop')
-    
-#     fig, ax1 = plt.subplots(figsize=(10, 6))
-    
-#     sns.pointplot(data=df, y=vresp, x=var, ax=ax1)
-    
-#     # Criar o segundo eixo y para a taxa de sobreviventes
-#     ax2 = ax1.twinx()
-#     sns.countplot(data=df, x=var, palette='viridis', alpha=0.5, ax=ax2)
-#     ax2.set_ylabel('Frequência', color='blue')
-#     ax2.tick_params(axis='y', labelcolor='blue')
-    
-#     ax1.set_zorder(2)
-#     ax1.patch.set_visible(False)  # Tornar o fundo do eixo 1 transparente
-    
-#     # Exibir o gráfico
-#     plt.show()
+def descriptive(df, target, feature, max_classes=5):
 
-def descritiva(df_, var, vresp='survived', max_classes=5):
-    """
-    Gera um gráfico descritivo da taxa de sobreviventes por categoria da variável especificada.
+    df = df.copy()
     
-    Parâmetros:
-    df : DataFrame - Base de dados a ser analisada.
-    var : str - Nome da variável categórica a ser analisada.
-    """
+    if df[feature].nunique()>max_classes:
+        df[feature] = pd.qcut(df[feature], max_classes, duplicates='drop')
     
-    df = df_.copy()
+    fig, ax1 = plt.subplots(figsize=(10, 6))
     
-    if df[var].nunique() > max_classes:
-        df[var] = pd.qcut(df[var], max_classes, duplicates='drop')
+    sns.pointplot(data=df, y=target, x=feature, ax=ax1)
     
-    # Gráfico de taxa de sobreviventes por categoria
-    fig1 = px.scatter(df, x=var, y=vresp, title=f'Taxa de {vresp} por {var}')
+    # Criar o segundo eixo y para a taxa de sobreviventes
+    ax2 = ax1.twinx()
+    sns.countplot(data=df, x=feature, palette='viridis', alpha=0.5, ax=ax2)
+    ax2.set_ylabel('Frequência', color='blue')
+    ax2.tick_params(axis='y', labelcolor='blue')
     
-    # Gráfico de frequência por categoria
-    fig2 = px.histogram(df, x=var, title=f'Frequência de {var}', opacity=0.5)
+    ax1.set_zorder(2)
+    ax1.patch.set_visible(False)  # Tornar o fundo do eixo 1 transparente
     
-    # Atualizar layout para sobrepor os gráficos
-    fig = go.Figure(data=fig1.data + fig2.data)
-    
-    fig.update_layout(title=f'Taxa de {vresp} e Frequência de {var}')
-    
-    fig.show()
+    # Exibir o gráfico
+    plt.show()
     
 def avalia_clf(clf, y, X, rótulos_y=['Não Sobreviveu', 'Sobreviveu'], base = 'treino'):
     
@@ -120,12 +84,10 @@ def avalia_clf(clf, y, X, rótulos_y=['Não Sobreviveu', 'Sobreviveu'], base = '
     plt.grid()
     plt.show()
 
-
-def relatorio_missing(df):
-    print(f'Número de linhas: {df.shape[0]} | Número de colunas: {df.shape[1]}')
-    return pd.DataFrame({'Pct_missing': df.isna().mean().apply(lambda x: f"{x:.1%}"),
-                          'Freq_missing': df.isna().sum().apply(lambda x: f"{x:,.0f}").replace(',','.')})
-
+def missing(df):
+    print(f'Lines: {df.shape[0]} | Columns: {df.shape[1]}')
+    return pd.DataFrame({'missing_pct': df.isna().mean().apply(lambda x: f"{x:.1%}"),
+                          'missing_freq': df.isna().sum().apply(lambda x: f"{x:,.0f}").replace(',','.')})
 
 def diagnóstico(df_, var, vresp='survived', pred = 'pred', max_classes=5):
     """
