@@ -129,9 +129,11 @@ X_train, X_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_
 
 #%% Deixando a árvore ser feliz
 tree = DecisionTreeRegressor(max_depth=30, ccp_alpha=0)
-tree.fit(df[['x']], df['y'])
 
-grid = tree.cost_complexity_pruning_path(X_train, y_train)
+tree.fit(X_train, y_train)
+# tree.fit(df[['x']], df['y'])
+
+# grid = tree.cost_complexity_pruning_path(X_train, y_train)
 
 #%%
 path = tree.cost_complexity_pruning_path(X_train, y_train)

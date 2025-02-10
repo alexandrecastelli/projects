@@ -6,7 +6,6 @@ Created on Sun Dec  8 20:51:46 2024
 """
 
 #%%
-# Carrega as bibliotecas
 
 import numpy as np
 import pandas as pd
@@ -184,5 +183,3 @@ plt.ylabel('Valores Previstos')
 plt.title('Comparação entre Valores Reais e Previstos')
 plt.show()
 
-
-# %%
