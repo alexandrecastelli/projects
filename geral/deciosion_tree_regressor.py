@@ -1,23 +1,13 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Sun Dec  8 20:51:46 2024
-
-@author: João Mello
-"""
-
 #%%
-# Carrega as bibliotecas
+# carrega as bibliotecas
 
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-from sklearn.tree import DecisionTreeRegressor
-from sklearn.tree import plot_tree
-
-from sklearn.model_selection import train_test_split
-from sklearn.model_selection import GridSearchCV
+from sklearn.tree import DecisionTreeRegressor, plot_tree
+from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.metrics import r2_score
 
 #%%
