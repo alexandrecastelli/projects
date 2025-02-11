@@ -73,20 +73,19 @@ y_pred = model.predict(X_test)
 # avalia o modelo (usando MSE como exemplo)
 
 mse = mean_squared_error(y_test, y_pred)
-rquad = r2_score(y_test,y_pred)
+rquad = r2_score(y_test, y_pred)
 print(f'Mean Squared Error: {mse:.5f} | R-quadrado={rquad:,.1f}')
 
 #%% 
 # define os parâmetros para o grid search 
 
-params = { 'n_estimators': [100], 
-          'max_depth': [2, 3, 6], 
+params = {'n_estimators': [100],
+          'max_depth': [2, 3, 6],
           'min_samples_split': [2, 5],
-          'max_features': [2, 5]
-          }
+          'max_features': [2, 5]}
 
-grid = GridSearchCV(RandomForestRegressor(), 
-                    params, 
+grid = GridSearchCV(RandomForestRegressor(),
+                    params,
                     cv=5)
 
 grid.fit(X_train, y_train)
@@ -98,7 +97,7 @@ print(grid.best_params_)
 y_pred = grid.best_estimator_.predict(X_test)
 
 r2treino = r2_score(y_train,y_train)
-r2teste = r2_score(y_test,y_pred)
+r2teste = r2_score(y_test, y_pred)
 
 print(f"R-quadrado na base de teste: {r2teste:,.2%}")
 
