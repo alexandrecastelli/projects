@@ -1,15 +1,13 @@
 #%%
 
-# carrega as bibliotecas
+# carrega os pacotes
 
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
-
 from sklearn.tree import DecisionTreeClassifier, plot_tree
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import roc_auc_score
-
 from functions import descriptive, missing, evaluate
 
 #%%
@@ -25,7 +23,7 @@ print(df.head())
 
 # mostra estatísticas das variáveis
 
-descriptive(df, 'survived', 'sex') # criar um for loop
+descriptive(df, 'survived', 'sex')
 descriptive(df, 'survived', 'class')
 descriptive(df, 'survived', 'age')
 descriptive(df, 'survived', 'fare')
