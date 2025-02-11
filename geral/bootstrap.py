@@ -1,5 +1,4 @@
 #%%
-
 # carrega os pacotes
 
 import numpy as np
@@ -7,14 +6,12 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 #%% 
-
 # gera os dados
 
 np.random.seed(123)
 df = pd.DataFrame({'dados': np.random.normal(size=100)})
 
 #%% 
-
 # calcula o erro padrão por bootstrap
 
 def function_sem(data, n_boot=1000):
@@ -26,13 +23,11 @@ def function_sem(data, n_boot=1000):
   return mean
 
 #%%
-
 # calcula o erro padrão da média
 
 bootstrap_sample = function_sem(df['dados'])
 
 #%%
-
 # gera o histograma
 
 plt.hist(bootstrap_sample)

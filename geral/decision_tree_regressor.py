@@ -1,5 +1,4 @@
 #%%
-
 # carrega os pacotes
 
 import numpy as np
@@ -11,7 +10,6 @@ from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.metrics import r2_score
 
 #%%
-
 # define a seed
 
 np.random.seed(2360873)
@@ -48,7 +46,6 @@ plt.legend(loc='lower center', bbox_to_anchor=(0.5, -0.15), ncol=3, frameon=Fals
 plt.show()
 
 #%%
-
 # cria uma função que mostra os valores observados, os previstos e os resíduos de acordo com a profundidade da árvore
 
 def tree_function(depth=3, alpha=0):
@@ -87,14 +84,12 @@ def tree_function(depth=3, alpha=0):
     plt.show()
 
 #%%
-
 # excuta a função para diferentes profundidades
 
 for depth in [1, 2, 3, 5, 10, 30]:
     tree_function(depth)
     
 #%%
-
 # transforma os arrays em dataframes
 
 x = df[['x']]
@@ -105,7 +100,6 @@ y = df[['y']]
 X_train, X_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=2360873)
 
 #%%
-
 # define a árvore de decisão
 
 tree = DecisionTreeRegressor(max_depth=30, ccp_alpha=0, random_state=42)
@@ -115,7 +109,6 @@ tree = DecisionTreeRegressor(max_depth=30, ccp_alpha=0, random_state=42)
 tree.fit(X_train, y_train)
 
 #%%
-
 # gera os valores do cost-complexity pruning path
 
 path = tree.cost_complexity_pruning_path(X_train, y_train)
@@ -130,7 +123,6 @@ sns.scatterplot(x = ccp_alphas, y = impurities)
 len(ccp_alphas)
 
 #%%
-
 # cria um dicionário com valores de ccp_alpha
 
 param_grid  = {'ccp_alpha': ccp_alphas[::10]}
@@ -147,21 +139,18 @@ gs_tree = GridSearchCV(estimator=tree,
 gs_tree.fit(X_train, y_train)
 
 #%%
-
 # obtém os melhores parâmetros
 
 best_params = gs_tree.best_params_
 print(best_params)
 
 #%%
-
 # define o modelo com os melhores parâmetros
 
 best_tree = DecisionTreeRegressor(**best_params, max_depth=30, random_state=42)
 best_tree.fit(X_train, y_train)
 
 #%%
-
 # avalia o modelo na base de teste
 
 y_pred = best_tree.predict(X_test)
@@ -172,7 +161,6 @@ r2 = r2_score(y_test, y_pred)
 print("R-quadrado na base de testes:", r2)
 
 #%%
-
 # gera o gráfico com os valores observados e previstos
 
 plt.scatter(y_test, y_pred)
@@ -182,7 +170,6 @@ plt.title('Comparação entre valores reais e previstos')
 plt.show()
 
 #%%
-
 # mostra a árvore com os melhotres parâmetros
 
 plt.figure(figsize=(10, 6))
