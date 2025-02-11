@@ -28,7 +28,7 @@ y, X = patsy.dmatrices('survived ~ pclass + sex + age + sibsp + parch + fare + e
 
 print(X.head())
 
-# Exiba as primeiras linhas da variável resposta y
+# exibe as primeiras linhas da variável resposta y
 
 print(y.head())
 
@@ -44,6 +44,7 @@ print("X_train shape:", X_train.shape)
 print("y_train shape:", y_train.shape)
 print("X_test shape:", X_test.shape)
 print("y_test shape:", y_test.shape)
+
 #%%
 
 # treina a Random Forest
@@ -90,7 +91,10 @@ print(f"Tempo de execução: {tempo_fim - tempo_ini} segundos")
 #%%
 
 # avalia o modelo tunado
-# aval_classificador(y_train, X_train, y_test, X_test, melhor_modelo)
 
 evaluate(melhor_modelo, y_train, X_train, rótulos_y=['Não Sobreviveu', 'Sobreviveu'], base = 'treino')
 evaluate(melhor_modelo, y_test, X_test, rótulos_y=['Não Sobreviveu', 'Sobreviveu'], base = 'teste')
+
+
+
+# mostrar a árvore e comparar com o modelo sem bagging

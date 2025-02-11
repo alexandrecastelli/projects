@@ -55,7 +55,7 @@ def tree_function(depth=3, alpha=0):
 
     # define a árvore
 
-    tree = DecisionTreeRegressor(max_depth=depth, ccp_alpha=alpha) 
+    tree = DecisionTreeRegressor(max_depth=depth, ccp_alpha=alpha, random_state=42) 
     tree.fit(df[['x']], df['y'])
     
     # gera os valores previstos e os resíduos
@@ -102,13 +102,13 @@ y = df[['y']]
 
 # define as bases de treino e de teste
 
-X_train, X_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=2360873)
 
 #%%
 
 # define a árvore de decisão
 
-tree = DecisionTreeRegressor(max_depth=30, ccp_alpha=0)
+tree = DecisionTreeRegressor(max_depth=30, ccp_alpha=0, random_state=42)
 
 # treina a árvore
 
@@ -157,7 +157,7 @@ print(best_params)
 
 # define o modelo com os melhores parâmetros
 
-best_tree = DecisionTreeRegressor(**best_params, max_depth=30)
+best_tree = DecisionTreeRegressor(**best_params, max_depth=30, random_state=42)
 best_tree.fit(X_train, y_train)
 
 #%%

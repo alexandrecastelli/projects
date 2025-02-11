@@ -63,7 +63,7 @@ df.to_pickle('titanic.pkl')
 y = df['survived']
 X = df.drop(columns=['survived'])
 
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=.25)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=.2, random_state=2360873)
 
 print('X_train:', X_train.shape)
 print('y_train:', y_train.shape)
@@ -74,7 +74,7 @@ print('y_test:', y_test.shape)
 
 # define, treina e avalia o modelo
 
-clf = DecisionTreeClassifier()
+clf = DecisionTreeClassifier(random_state=42)
 
 clf.fit(X_train, y_train)
 
@@ -94,7 +94,7 @@ ccp_path = pd.DataFrame(clf.cost_complexity_pruning_path(X_train, y_train))
 GINIs = []
 
 for ccp in ccp_path['ccp_alphas']:
-    clf = DecisionTreeClassifier(ccp_alpha=ccp)
+    clf = DecisionTreeClassifier(ccp_alpha=ccp, random_state=42)
 
     clf.fit(X_train, y_train)
     AUC = roc_auc_score(y_test, clf.predict_proba(X_test)[:, -1])
@@ -118,7 +118,7 @@ print(f'O GINI máximo é de: {GINI_max:.2%}\nObtido com um CCP de: {ccp_best}')
 
 # define e avalia o modelo otimizado
 
-clf = DecisionTreeClassifier(ccp_alpha=ccp_best)
+clf = DecisionTreeClassifier(ccp_alpha=ccp_best, random_state=42)
 
 clf.fit(X_train, y_train)
 
