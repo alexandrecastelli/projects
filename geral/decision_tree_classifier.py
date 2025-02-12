@@ -18,17 +18,6 @@ print(df.info())
 print(df.head())
 
 #%%
-# mostra estatísticas das variáveis
-
-descriptive(df, 'survived', 'sex')
-descriptive(df, 'survived', 'class')
-descriptive(df, 'survived', 'age')
-descriptive(df, 'survived', 'fare')
-descriptive(df, 'survived', 'embarked')
-descriptive(df, 'survived', 'sibsp')
-descriptive(df, 'survived', 'parch')
-
-#%%
 # analisa os dados faltantes
 
 missing(df)
@@ -39,6 +28,12 @@ missing(df)
 df['age'] = df.age.fillna(df.age.mean())
 
 df.drop(columns=['class', 'who', 'adult_male', 'deck', 'embark_town', 'alive', 'alone'], inplace=True)
+
+#%%
+# mostra estatísticas das variáveis
+
+for col in df.columns[:-1]:
+    descriptive(df=df, target='survived', features=col)
 
 #%%
 # transforma as variáveis strings em dummies e salva a base tratada
