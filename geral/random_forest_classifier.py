@@ -32,7 +32,7 @@ print(y.head())
 #%% 
 # divide os dados em conjuntos de treinamento e teste
 
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=2360873)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
 # mostra as formas dos conjuntos de dados resultantes
 

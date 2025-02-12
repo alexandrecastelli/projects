@@ -51,7 +51,7 @@ df.to_pickle('titanic.pkl')
 y = df['survived']
 X = df.drop(columns=['survived'])
 
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=.2, random_state=2360873)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=.2, random_state=42)
 
 print('X_train:', X_train.shape)
 print('y_train:', y_train.shape)

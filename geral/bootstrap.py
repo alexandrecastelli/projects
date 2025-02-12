@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 #%% 
 # gera os dados
 
-np.random.seed(123)
+np.random.seed(42)
 df = pd.DataFrame({'dados': np.random.normal(size=100)})
 
 #%% 

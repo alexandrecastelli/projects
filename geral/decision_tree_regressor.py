@@ -12,7 +12,7 @@ from sklearn.metrics import r2_score
 #%%
 # define a seed
 
-np.random.seed(2360873)
+np.random.seed(42)
 
 # gera 1000 valores para X entre 0 e 1
 
@@ -97,7 +97,7 @@ y = df[['y']]
 
 # define as bases de treino e de teste
 
-X_train, X_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=2360873)
+X_train, X_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=42)
 
 #%%
 # define a árvore de decisão
