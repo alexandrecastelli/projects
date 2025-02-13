@@ -16,59 +16,53 @@ df = pd.read_pickle('titanic.pkl')
 X = df.drop(columns='survived')
 y = df['survived']
 
-X_train, X_test, y_train, y_test = train_test_split(X, y, 
-                                                    test_size=0.2, 
-                                                    random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
 d_train = xgboost.DMatrix(X_train, label=y_train)
 d_test = xgboost.DMatrix(X_test, label=y_test)
 
 #%%
 # define os parâmetros do modelo
 
-params = {
-    "eta": 0.01,
-    "objective": "binary:logistic",
-    "subsample": 0.5,
-    "base_score": np.mean(y_train),
-    "eval_metric": "logloss",
-}
-model = xgboost.train(
-    params,
-    d_train,
-    5000,
-    evals=[(d_test, "test")],
-    verbose_eval=100,
-    early_stopping_rounds=20,
-)
+params = {'eta': 0.01,
+          'objective': 'binary:logistic',
+          'subsample': 0.5,
+          'base_score': np.mean(y_train),
+          'eval_metric': 'logloss'}
+
+model = xgboost.train(params,
+                      d_train,
+                      5000,
+                      evals=[(d_test, 'test')],
+                      verbose_eval=100,
+                      early_stopping_rounds=20)
 
 #%%
+# mostra a importância das variáveis
+
 xgboost.plot_importance(model)
-pl.title("xgboost.plot_importance(model)")
+pl.title('xgboost.plot_importance(model)')
 pl.show()
 
-
-
-#%%
 explainer = shap.TreeExplainer(model)
 shap_values = explainer.shap_values(X)
 
 #%%
+# mostra os gráficos
+
 grafico = shap.force_plot(explainer.expected_value, 
                           shap_values[0, :], 
                           X.iloc[0, :])
 
-shap.save_html("force_plot_titanic.html", grafico)
-
-#%%
+shap.save_html('force_plot_titanic.html', grafico)
 
 grafico2 = shap.force_plot(explainer.expected_value, 
                            shap_values, 
                            X)
-shap.save_html("force_plot2_titanic.html", grafico2)
+shap.save_html('force_plot2_titanic.html', grafico2)
 
-#%%
 shap.summary_plot(shap_values, X)
-#%%
+
 shap.waterfall_plot(shap.Explanation(values=shap_values[0], 
                                      base_values=explainer.expected_value, 
                                      data=X.iloc[0], 
