@@ -75,7 +75,7 @@ def missing(df):
     return pd.DataFrame({'missing_pct': df.isna().mean().apply(lambda x: f"{x:.1%}"),
                           'missing_freq': df.isna().sum().apply(lambda x: f"{x:,.0f}").replace(',','.')})
 
-def diagnóstico(df_, var, vresp='survived', pred = 'pred', max_classes=5):
+def diagnosis(df_, var, vresp='survived', pred='pred', max_classes=5):
     
     df = df_.copy()
     
