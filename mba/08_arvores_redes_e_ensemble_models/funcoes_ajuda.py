@@ -36,7 +36,7 @@ def descritiva(df_, var, vresp='survived', max_classes=5):
     
     # Criar o segundo eixo y para a taxa de sobreviventes
     ax2 = ax1.twinx()
-    sns.countplot(data=df, x=var, palette='viridis', alpha=0.5, ax=ax2)
+    sns.countplot(data=df, x=var, hue=var, legend=False, palette='viridis', alpha=0.5, ax=ax2)
     ax2.set_ylabel('Frequência', color='blue')
     ax2.tick_params(axis='y', labelcolor='blue')
     
@@ -110,17 +110,18 @@ def diagnóstico(df_, var, vresp='survived', pred = 'pred', max_classes=5):
     
     df = df_.copy()
     
-    if df[var].nunique()>max_classes:
-        df[var] = pd.qcut(df[var], max_classes, duplicates='drop')
+    df[var+'_'] = df[var]
+    if df[var+'_'].nunique()>max_classes:
+        df[var+'_'] = pd.qcut(df[var], max_classes, duplicates='drop')
     
     fig, ax1 = plt.subplots(figsize=(10, 6))
     
-    sns.pointplot(data=df, y=vresp, x=var, ax=ax1)
-    sns.pointplot(data=df, y=pred, x=var, ax=ax1, color='red', linestyles='--', ci=None)
+    sns.pointplot(data=df, y=vresp, x=var+'_', ax=ax1)
+    sns.pointplot(data=df, y=pred, x=var+'_', ax=ax1, color='red', linestyles='--', errorbar=None)
     
     # Criar o segundo eixo y para a taxa de sobreviventes
     ax2 = ax1.twinx()
-    sns.countplot(data=df, x=var, palette='viridis', alpha=0.5, ax=ax2)
+    sns.countplot(data=df, x=var+'_', hue=var+'_', palette='viridis', alpha=0.5, ax=ax2)
     ax2.set_ylabel('Frequência', color='blue')
     ax2.tick_params(axis='y', labelcolor='blue')
     
