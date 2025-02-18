@@ -1,5 +1,4 @@
-#%%
-# carrega os pacotes
+#%% Carrega os pacotes
 
 import pandas as pd
 from sklearn.model_selection import train_test_split
@@ -9,15 +8,13 @@ from functions import descriptive, diagnosis
 import shap
 import matplotlib.pyplot as plt
 
-#%%
-# carrega os dados
+#%% Carrega os dados
 
 df = pd.read_csv('houses_to_rent.csv', index_col=0)
 
 df.info()
 
-#%%
-# limpa os dados
+#%% Limpa os dados
 
 df['floor'] = df.floor.str.replace('-','NaN').astype('float64')
 
@@ -38,8 +35,7 @@ y = df[y_col]
 for col in X_cols:
     descriptive(df, y, col)
 
-#%%
-# separa os dados em treino e teste
+#%% Separa os dados em treino e teste
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
 
@@ -48,35 +44,30 @@ print('y_train:', y_train.shape)
 print('X_test', X_test.shape)
 print('y_test', y_test.shape)
 
-#%%
-# treina o modelo
+#%% Treina o modelo
 
 rf = RandomForestRegressor()
 rf.fit(X, y)
 
-#%%
-# avalia o modelo
+#%% Avalia o modelo
 
 r2_score(y_test, rf.predict(X_test))
 
 df['pred'] = rf.predict(X)
 
-#%% 
-# faz um diagnóstico por variáveis
+#%% Faz um diagnóstico por variáveis
 
 for col in X_cols:
     diagnosis(df, col, y, 'pred')
     
-#%% 
-# calcula os 'shap values'
+#%% Calcula os 'shap values'
 
 amostra = X_test.sample(frac=0.1)
 
 explainer = shap.TreeExplainer(rf)
 shap_values = explainer.shap_values(amostra)
 
-#%% 
-# mostra os gráficos
+#%% Mostra os gráficos
 
 shap.summary_plot(shap_values, amostra, feature_names=X.columns)
 
@@ -85,9 +76,7 @@ shap.waterfall_plot(shap.Explanation(values=shap_values[0],
                                      data=amostra.iloc[0], 
                                      feature_names=amostra.columns))
 
-
-#%% 
-# gera o gráfico manualmente
+#%% Gera o gráfico manualmente
 
 df_shap = pd.DataFrame(shap_values, columns=X.columns)
 df_shap.iloc[0].plot.bar()

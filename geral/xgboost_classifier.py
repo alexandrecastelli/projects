@@ -1,5 +1,4 @@
-#%%
-# carrega os pacotes
+#%% Carrega os pacotes
 
 import pandas as pd
 from sklearn.model_selection import train_test_split, GridSearchCV
@@ -8,18 +7,15 @@ from sklearn.metrics import roc_auc_score, roc_curve
 import matplotlib.pyplot as plt
 from functions import descriptive
 
-#%% 
-# carrega os dados titanic
+#%% Carrega os dados titanic
 
 titanic = pd.read_pickle('titanic.pkl')
 
-#%% 
-# verifica os valores ausentes
+#%% Verifica os valores ausentes
 
 print(titanic.isnull().sum())
 
-#%% 
-# define a target e as features
+#%% Define a target e as features
 
 X = titanic.drop('survived', axis=1)
 y = titanic['survived']
@@ -31,8 +27,7 @@ print('y_train:', y_train.shape)
 print('X_test', X_test.shape)
 print('y_test', y_test.shape)
 
-#%% 
-# define os parâmetros do gridsearch
+#%% Define os parâmetros do grid search
 
 param_grid = {'n_estimators': [50, 100, 150],
               'max_depth': [2, 3],
@@ -42,8 +37,7 @@ param_grid = {'n_estimators': [50, 100, 150],
               'min_child_weight': [1],
               'subsample': [0.75, 1]}
 
-#%% 
-# define o modelo
+#%% Treina o modelo
 
 import time
 tempo_ini = time.time()
@@ -57,19 +51,12 @@ grid_search = GridSearchCV(estimator=xgb,
                            verbose=0, 
                            n_jobs=-1)
 
-#%% 
-# treina o modelo
-
 grid_search.fit(X_train, y_train)
-
-#%% 
-# mostra o tempo de processamento
 
 tempo_fim = time.time()
 print(f"Tempo de execução: {tempo_fim - tempo_ini} segundos")
 
-#%% 
-# avalia o modelo
+#%% Avalia o modelo
 
 def evaluate(modelo, X_train, y_train, X_test, y_test):
     p_train = modelo.predict_proba(X_train)[:, 1]
@@ -97,8 +84,7 @@ def evaluate(modelo, X_train, y_train, X_test, y_test):
 
 evaluate(grid_search.best_estimator_, X_train, y_train, X_test, y_test)
 
-#%%
-# avalia a previsão do modelo
+#%% Avalia a previsão do modelo
 
 titanic['pred'] = grid_search.best_estimator_.predict_proba(X)[:, 1]
 

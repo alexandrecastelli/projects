@@ -1,5 +1,4 @@
-#%%
-# carrega os pacotes
+#%% Carrega os pacotes
 
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -9,34 +8,29 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import roc_auc_score
 from functions import descriptive, missing, evaluate
 
-#%%
-# carrega os dados e visualiza informações do dataset
+#%% Carrega os dados e visualiza informações do dataset
 
 df = sns.load_dataset('titanic')
 
 print(df.info())
 print(df.head())
 
-#%%
-# analisa os dados faltantes
+#%% Analisa os dados faltantes
 
 missing(df)
 
-# %%
-# trata a variável age e remove as variáveis redundantes
+# %% Trata a variável age e remove as variáveis redundantes
 
 df['age'] = df.age.fillna(df.age.mean())
 
 df.drop(columns=['class', 'who', 'adult_male', 'deck', 'embark_town', 'alive', 'alone'], inplace=True)
 
-#%%
-# mostra estatísticas das variáveis
+#%% Mostra estatísticas das variáveis
 
 for col in df.columns[:-1]:
     descriptive(df=df, target='survived', features=col)
 
-#%%
-# transforma as variáveis strings em dummies e salva a base tratada
+#%% Transforma as variáveis strings em dummies e salva a base tratada
 
 df = pd.get_dummies(df, drop_first=True)
 
@@ -45,8 +39,7 @@ print(df.head())
 
 df.to_pickle('titanic.pkl')
 
-#%%
-# define a target, as features e as bases de teste e de treino
+#%% Define a target, as features e as bases de teste e de treino
 
 y = df['survived']
 X = df.drop(columns=['survived'])
@@ -58,8 +51,7 @@ print('y_train:', y_train.shape)
 print('X_test:', X_test.shape)
 print('y_test:', y_test.shape)
 
-#%%
-# define, treina e avalia o modelo
+#%% Define, treina e avalia o modelo
 
 clf = DecisionTreeClassifier(random_state=42)
 
@@ -68,13 +60,11 @@ clf.fit(X_train, y_train)
 evaluate(clf, y_train, X_train, base='treino')
 evaluate(clf, y_test, X_test, base='teste')
 
-#%%
-# define o cost-complexity pruning path para otimizar o modelo
+#%% Define o cost-complexity pruning path para otimizar o modelo (poderia utilizar validação cruzada)
 
 ccp_path = pd.DataFrame(clf.cost_complexity_pruning_path(X_train, y_train))
 
-#%%
-# otimiza o modelo
+#%% Otimiza o modelo
 
 GINIs = []
 
@@ -99,8 +89,7 @@ plt.title('Avaliação da árvore por valor de CCP-Alpha')
 
 print(f'O GINI máximo é de: {GINI_max:.2%}\nObtido com um CCP de: {ccp_best}')
 
-#%%
-# define e avalia o modelo otimizado
+#%% Define e avalia o modelo otimizado
 
 clf = DecisionTreeClassifier(ccp_alpha=ccp_best, random_state=42)
 
@@ -109,8 +98,7 @@ clf.fit(X_train, y_train)
 evaluate(clf, y_train, X_train, base='treino')
 evaluate(clf, y_test, X_test, base='teste')
 
-#%%
-# mostra a árvore
+#%% Mostra a árvore
 
 plt.figure(figsize=(20, 10))
 plot_tree(clf, feature_names=X_test.columns.tolist(), class_names=['Not survived', 'Survived'], filled=True)

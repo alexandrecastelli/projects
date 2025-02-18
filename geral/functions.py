@@ -1,5 +1,4 @@
-#%%  
-# funções de ajuda
+#%% Funções de ajuda
 
 import pandas as pd
 

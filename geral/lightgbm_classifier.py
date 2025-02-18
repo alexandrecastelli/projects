@@ -1,6 +1,4 @@
-#%%
-
-# carrega os pacotes
+#%% Carrega os pacotes
 
 import pandas as pd
 import seaborn as sns
@@ -12,39 +10,32 @@ import lightgbm as lgb
 import time
 import numpy as np
 
-#%% 
-# carrega os dados
+#%% Carrega os dados
 
 X_train = pd.read_pickle('X_train.pkl')
 y_train = pd.read_pickle('y_train.pkl')
 X_test = pd.read_pickle('X_test.pkl')
 y_test = pd.read_pickle('y_test.pkl')
 
-# identifica e remove colunas duplicadas
-
 duplicated_columns = X_train.columns[X_train.columns.duplicated()]
 print(f'Colunas duplicadas: {duplicated_columns}')
 X_train = X_train.loc[:, ~X_train.columns.duplicated()]
 X_test = X_test.loc[:, ~X_test.columns.duplicated()]
 
-#%% 
-# ajusta o índice
+#%% Ajusta o índice
 
 X_train.set_index('subject', append=True, inplace=True)
 X_test.set_index('subject', append=True, inplace=True)
 
-#%% 
-# adiciona a coluna de resposta no dataframe de treino
+#%% Adiciona a coluna de resposta no data frame de treino
 
 HAR_train = pd.concat([X_train.reset_index(), y_train], axis=1).set_index(['level_0', 'subject'])
 
-#%% 
-# visualiza as colunas
+#%% Visualiza as colunas
 
 print(HAR_train.columns)
 
-#%% 
-# analisa as estatísticas
+#%% Analisa as estatísticas
 
 fig, axs = plt.subplots(1, 3, figsize=(18, 6))
 
@@ -68,8 +59,7 @@ axs[2].set_xticklabels(axs[2].get_xticklabels(), rotation=30)
 
 plt.show()
 
-#%% 
-# treina o modelo
+#%% Treina o modelo
 
 np.random.seed(42)
 tempo_ini = time.time()
@@ -82,8 +72,6 @@ importancias = pd.DataFrame(arvore.feature_importances_, index=X_train.columns, 
 top_10_variaveis = importancias.sort_values(by='importancia', ascending=False)[:10]
 print(f'Top 10 variaveis: {top_10_variaveis}')
 
-# seleciona as 20 variáveis com maior importância
-
 variaveis = importancias.nlargest(20, 'importancia').index.tolist()
 print(f'Variáveis selecionadas: {variaveis}')
 
@@ -92,47 +80,33 @@ param_grid = {'num_leaves': [31],
               'learning_rate': [0.05, 0.2],
               'n_estimators': [5, 11]}
 
-#%% 
-# verifica os valores faltantes
+#%% Verifica os valores faltantes
 
 print(X_train[variaveis].isna().sum())
 print(y_train.isna().sum())
 
-#%% 
-# prepara a variável y
+#%% Prepara a variável y
 
 y = y_train['label'].cat.codes
 
-#%% 
-# define o grid
+#%% Treina o modelo
 
 cv = StratifiedKFold(n_splits=3, shuffle=True, random_state=42)
 scorer = make_scorer(roc_auc_score, needs_proba=True, multi_class='ovr')
 
-# inicia o cronômetro
-
 tempo_ini = time.time()
 
-# define o modelo
-
 modelo = lgb.LGBMClassifier(objective='multiclass', random_state=42)
-
-# executa o grid
 
 grid_search = GridSearchCV(estimator=modelo, param_grid=param_grid, scoring=scorer, cv=cv, n_jobs=-1, verbose=1)
 grid_search.fit(X_train[variaveis], y)
 
-# finaliza o cronômetro
-
 tempo_fim = time.time()
 print(f'Tempo de treinamento do Grid Search: {tempo_fim - tempo_ini} segundos')
 
-# exibe os melhores parâmetros
-
 print(f'Melhores Parâmetros: {grid_search.best_params_}')
 
-#%%
-# mostra os resultados
+#%% Mostra os resultados
 
 resultados_cv = pd.DataFrame(grid_search.cv_results_)
 

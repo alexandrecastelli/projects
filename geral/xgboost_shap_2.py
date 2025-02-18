@@ -1,5 +1,4 @@
-#%%
-# carrega os pacotes
+#%% Carrega os pacotes
 
 import pandas as pd
 import matplotlib.pylab as pl
@@ -8,8 +7,7 @@ import xgboost
 from sklearn.model_selection import train_test_split
 import shap
 
-#%%
-# carrega os dados
+#%% Carrega os dados
 
 df = pd.read_pickle('titanic.pkl')
 
@@ -21,8 +19,7 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_
 d_train = xgboost.DMatrix(X_train, label=y_train)
 d_test = xgboost.DMatrix(X_test, label=y_test)
 
-#%%
-# define os parâmetros do modelo
+#%% Define os parâmetros do modelo
 
 params = {'eta': 0.01,
           'objective': 'binary:logistic',
@@ -37,8 +34,7 @@ model = xgboost.train(params,
                       verbose_eval=100,
                       early_stopping_rounds=20)
 
-#%%
-# mostra a importância das variáveis
+#%% Mostra a importância das variáveis
 
 xgboost.plot_importance(model)
 pl.title('xgboost.plot_importance(model)')
@@ -47,8 +43,7 @@ pl.show()
 explainer = shap.TreeExplainer(model)
 shap_values = explainer.shap_values(X)
 
-#%%
-# mostra os gráficos
+#%% Mostra os gráficos
 
 grafico = shap.force_plot(explainer.expected_value, 
                           shap_values[0, :], 
