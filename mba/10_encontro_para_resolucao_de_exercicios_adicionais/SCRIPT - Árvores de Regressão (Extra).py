@@ -12,6 +12,7 @@
 !pip install matplotlib
 !pip install scikit-learn
 !pip install xgboost
+!pip install openpyxl
 
 #%% Importar os pacotes
 
