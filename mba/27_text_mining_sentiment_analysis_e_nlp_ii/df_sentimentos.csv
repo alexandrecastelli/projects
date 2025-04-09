@@ -1,0 +1,101 @@
+id,data,depoimento,depoimento_en,polarity,sentimento
+1,2023-01-01,Ambiente aconchegante e atendimento simpático; comida saborosa.,Cozy atmosphere and friendly service; tasty food.,0.4939,positivo
+2,2023-01-02,"Atendimento excelente, mas o tempo de preparo dos pratos é muito longo.","Excellent service, but the preparation time for dishes is too long.",0.3291,positivo
+3,2023-01-03,A comida é deliciosa e o serviço é sempre cordial.,The food is delicious and the service is always courteous.,0.7906,positivo
+4,2023-01-04,"Ótima experiência, com ambiente agradável e equipe atenciosa.","Great experience, with a pleasant atmosphere and attentive staff.",0.8126,positivo
+5,2023-01-05,"Serviço impecável, porém a demora no preparo compromete a experiência.","Impeccable service, but the delay in preparation affects the experience.",-0.4497,negativo
+6,2023-01-06,Recomendo pela qualidade dos pratos e simpatia dos funcionários.,I recommend it for the quality of the dishes and the friendliness of the staff.,0.6705,positivo
+7,2023-01-07,O restaurante oferece um ótimo atendimento e pratos bem servidos.,The restaurant offers great service and well-served dishes.,0.6249,positivo
+8,2023-01-08,"O atendimento é bom, mas o preparo dos pratos demora demais.","The service is good, but the preparation of the dishes takes too long.",0.2382,positivo
+9,2023-01-09,Local agradável com decoração charmosa e pratos bem apresentados.,Pleasant place with charming decor and well-presented dishes.,0.7964,positivo
+10,2023-01-10,A comida tem um sabor único e o ambiente é acolhedor.,"The food has a unique taste, and the atmosphere is cozy.",0.0,neutro
+11,2023-01-11,Ambiente aconchegante e atendimento simpático; comida saborosa.,Cozy atmosphere and friendly service; tasty food.,0.4939,positivo
+12,2023-01-12,"Atendimento excelente, mas o tempo de preparo dos pratos é muito longo.","Excellent service, but the preparation time for dishes is too long.",0.3291,positivo
+13,2023-01-13,A comida é deliciosa e o serviço é sempre cordial.,The food is delicious and the service is always courteous.,0.7906,positivo
+14,2023-01-14,"Ótima experiência, com ambiente agradável e equipe atenciosa.","Great experience, with a pleasant atmosphere and attentive staff.",0.8126,positivo
+15,2023-01-15,"Serviço impecável, porém a demora no preparo compromete a experiência.","Impeccable service, but the delay in preparation affects the experience.",-0.4497,negativo
+16,2023-01-16,Recomendo pela qualidade dos pratos e simpatia dos funcionários.,I recommend it for the quality of the dishes and the friendliness of the staff.,0.6705,positivo
+17,2023-01-17,O restaurante oferece um ótimo atendimento e pratos bem servidos.,The restaurant offers great service and well-served dishes.,0.6249,positivo
+18,2023-01-18,"O atendimento é bom, mas o preparo dos pratos demora demais.","The service is good, but the preparation of the dishes takes too long.",0.2382,positivo
+19,2023-01-19,Local agradável com decoração charmosa e pratos bem apresentados.,Pleasant place with charming decor and well-presented dishes.,0.7964,positivo
+20,2023-01-20,A comida tem um sabor único e o ambiente é acolhedor.,"The food has a unique taste, and the atmosphere is cozy.",0.0,neutro
+21,2023-01-21,Ambiente aconchegante e atendimento simpático; comida saborosa.,Cozy atmosphere and friendly service; tasty food.,0.4939,positivo
+22,2023-01-22,"Atendimento excelente, mas o tempo de preparo dos pratos é muito longo.","Excellent service, but the preparation time for dishes is too long.",0.3291,positivo
+23,2023-01-23,A comida é deliciosa e o serviço é sempre cordial.,The food is delicious and the service is always courteous.,0.7906,positivo
+24,2023-01-24,"Ótima experiência, com ambiente agradável e equipe atenciosa.","Great experience, with a pleasant atmosphere and attentive staff.",0.8126,positivo
+25,2023-01-25,"Serviço impecável, porém a demora no preparo compromete a experiência.","Impeccable service, but the delay in preparation affects the experience.",-0.4497,negativo
+26,2023-01-26,Recomendo pela qualidade dos pratos e simpatia dos funcionários.,I recommend it for the quality of the dishes and the friendliness of the staff.,0.6705,positivo
+27,2023-01-27,O restaurante oferece um ótimo atendimento e pratos bem servidos.,The restaurant offers great service and well-served dishes.,0.6249,positivo
+28,2023-01-28,"O atendimento é bom, mas o preparo dos pratos demora demais.","The service is good, but the preparation of the dishes takes too long.",0.2382,positivo
+29,2023-01-29,Local agradável com decoração charmosa e pratos bem apresentados.,Pleasant place with charming decor and well-presented dishes.,0.7964,positivo
+30,2023-01-30,A comida tem um sabor único e o ambiente é acolhedor.,"The food has a unique taste, and the atmosphere is cozy.",0.0,neutro
+31,2023-01-31,Ambiente aconchegante e atendimento simpático; comida saborosa.,Cozy atmosphere and friendly service; tasty food.,0.4939,positivo
+32,2023-02-01,"Atendimento excelente, mas o tempo de preparo dos pratos é muito longo.","Excellent service, but the preparation time for dishes is too long.",0.3291,positivo
+33,2023-02-02,A comida é deliciosa e o serviço é sempre cordial.,The food is delicious and the service is always courteous.,0.7906,positivo
+34,2023-02-03,"Ótima experiência, com ambiente agradável e equipe atenciosa.","Great experience, with a pleasant atmosphere and attentive staff.",0.8126,positivo
+35,2023-02-04,"Serviço impecável, porém a demora no preparo compromete a experiência.","Impeccable service, but the delay in preparation affects the experience.",-0.4497,negativo
+36,2023-02-05,Recomendo pela qualidade dos pratos e simpatia dos funcionários.,I recommend it for the quality of the dishes and the friendliness of the staff.,0.6705,positivo
+37,2023-02-06,O restaurante oferece um ótimo atendimento e pratos bem servidos.,The restaurant offers great service and well-served dishes.,0.6249,positivo
+38,2023-02-07,"O atendimento é bom, mas o preparo dos pratos demora demais.","The service is good, but the preparation of the dishes takes too long.",0.2382,positivo
+39,2023-02-08,Local agradável com decoração charmosa e pratos bem apresentados.,Pleasant place with charming decor and well-presented dishes.,0.7964,positivo
+40,2023-02-09,A comida tem um sabor único e o ambiente é acolhedor.,"The food has a unique taste, and the atmosphere is cozy.",0.0,neutro
+41,2023-02-10,Ambiente aconchegante e atendimento simpático; comida saborosa.,Cozy atmosphere and friendly service; tasty food.,0.4939,positivo
+42,2023-02-11,"Atendimento excelente, mas o tempo de preparo dos pratos é muito longo.","Excellent service, but the preparation time for dishes is too long.",0.3291,positivo
+43,2023-02-12,A comida é deliciosa e o serviço é sempre cordial.,The food is delicious and the service is always courteous.,0.7906,positivo
+44,2023-02-13,"Ótima experiência, com ambiente agradável e equipe atenciosa.","Great experience, with a pleasant atmosphere and attentive staff.",0.8126,positivo
+45,2023-02-14,"Serviço impecável, porém a demora no preparo compromete a experiência.","Impeccable service, but the delay in preparation affects the experience.",-0.4497,negativo
+46,2023-02-15,Recomendo pela qualidade dos pratos e simpatia dos funcionários.,I recommend it for the quality of the dishes and the friendliness of the staff.,0.6705,positivo
+47,2023-02-16,O restaurante oferece um ótimo atendimento e pratos bem servidos.,The restaurant offers great service and well-served dishes.,0.6249,positivo
+48,2023-02-17,"O atendimento é bom, mas o preparo dos pratos demora demais.","The service is good, but the preparation of the dishes takes too long.",0.2382,positivo
+49,2023-02-18,Local agradável com decoração charmosa e pratos bem apresentados.,Pleasant place with charming decor and well-presented dishes.,0.7964,positivo
+50,2023-02-19,A comida tem um sabor único e o ambiente é acolhedor.,"The food has a unique taste, and the atmosphere is cozy.",0.0,neutro
+51,2023-02-20,Ambiente aconchegante e atendimento simpático; comida saborosa.,Cozy atmosphere and friendly service; tasty food.,0.4939,positivo
+52,2023-02-21,"Atendimento excelente, mas o tempo de preparo dos pratos é muito longo.","Excellent service, but the preparation time for dishes is too long.",0.3291,positivo
+53,2023-02-22,A comida é deliciosa e o serviço é sempre cordial.,The food is delicious and the service is always courteous.,0.7906,positivo
+54,2023-02-23,"Ótima experiência, com ambiente agradável e equipe atenciosa.","Great experience, with a pleasant atmosphere and attentive staff.",0.8126,positivo
+55,2023-02-24,"Serviço impecável, porém a demora no preparo compromete a experiência.","Impeccable service, but the delay in preparation affects the experience.",-0.4497,negativo
+56,2023-02-25,Recomendo pela qualidade dos pratos e simpatia dos funcionários.,I recommend it for the quality of the dishes and the friendliness of the staff.,0.6705,positivo
+57,2023-02-26,O restaurante oferece um ótimo atendimento e pratos bem servidos.,The restaurant offers great service and well-served dishes.,0.6249,positivo
+58,2023-02-27,"O atendimento é bom, mas o preparo dos pratos demora demais.","The service is good, but the preparation of the dishes takes too long.",0.2382,positivo
+59,2023-02-28,Local agradável com decoração charmosa e pratos bem apresentados.,Pleasant place with charming decor and well-presented dishes.,0.7964,positivo
+60,2023-03-01,A comida tem um sabor único e o ambiente é acolhedor.,"The food has a unique taste, and the atmosphere is cozy.",0.0,neutro
+61,2023-03-02,Ambiente aconchegante e atendimento simpático; comida saborosa.,Cozy atmosphere and friendly service; tasty food.,0.4939,positivo
+62,2023-03-03,"Atendimento excelente, mas o tempo de preparo dos pratos é muito longo.","Excellent service, but the preparation time for dishes is too long.",0.3291,positivo
+63,2023-03-04,A comida é deliciosa e o serviço é sempre cordial.,The food is delicious and the service is always courteous.,0.7906,positivo
+64,2023-03-05,"Ótima experiência, com ambiente agradável e equipe atenciosa.","Great experience, with a pleasant atmosphere and attentive staff.",0.8126,positivo
+65,2023-03-06,"Serviço impecável, porém a demora no preparo compromete a experiência.","Impeccable service, but the delay in preparation affects the experience.",-0.4497,negativo
+66,2023-03-07,Recomendo pela qualidade dos pratos e simpatia dos funcionários.,I recommend it for the quality of the dishes and the friendliness of the staff.,0.6705,positivo
+67,2023-03-08,O restaurante oferece um ótimo atendimento e pratos bem servidos.,The restaurant offers great service and well-served dishes.,0.6249,positivo
+68,2023-03-09,"O atendimento é bom, mas o preparo dos pratos demora demais.","The service is good, but the preparation of the dishes takes too long.",0.2382,positivo
+69,2023-03-10,Local agradável com decoração charmosa e pratos bem apresentados.,Pleasant place with charming decor and well-presented dishes.,0.7964,positivo
+70,2023-03-11,A comida tem um sabor único e o ambiente é acolhedor.,"The food has a unique taste, and the atmosphere is cozy.",0.0,neutro
+71,2023-03-12,Ambiente aconchegante e atendimento simpático; comida saborosa.,Cozy atmosphere and friendly service; tasty food.,0.4939,positivo
+72,2023-03-13,"Atendimento excelente, mas o tempo de preparo dos pratos é muito longo.","Excellent service, but the preparation time for dishes is too long.",0.3291,positivo
+73,2023-03-14,A comida é deliciosa e o serviço é sempre cordial.,The food is delicious and the service is always courteous.,0.7906,positivo
+74,2023-03-15,"Ótima experiência, com ambiente agradável e equipe atenciosa.","Great experience, with a pleasant atmosphere and attentive staff.",0.8126,positivo
+75,2023-03-16,"Serviço impecável, porém a demora no preparo compromete a experiência.","Impeccable service, but the delay in preparation affects the experience.",-0.4497,negativo
+76,2023-03-17,Recomendo pela qualidade dos pratos e simpatia dos funcionários.,I recommend it for the quality of the dishes and the friendliness of the staff.,0.6705,positivo
+77,2023-03-18,O restaurante oferece um ótimo atendimento e pratos bem servidos.,The restaurant offers great service and well-served dishes.,0.6249,positivo
+78,2023-03-19,"O atendimento é bom, mas o preparo dos pratos demora demais.","The service is good, but the preparation of the dishes takes too long.",0.2382,positivo
+79,2023-03-20,Local agradável com decoração charmosa e pratos bem apresentados.,Pleasant place with charming decor and well-presented dishes.,0.7964,positivo
+80,2023-03-21,A comida tem um sabor único e o ambiente é acolhedor.,"The food has a unique taste, and the atmosphere is cozy.",0.0,neutro
+81,2023-03-22,Ambiente aconchegante e atendimento simpático; comida saborosa.,Cozy atmosphere and friendly service; tasty food.,0.4939,positivo
+82,2023-03-23,"Atendimento excelente, mas o tempo de preparo dos pratos é muito longo.","Excellent service, but the preparation time for dishes is too long.",0.3291,positivo
+83,2023-03-24,A comida é deliciosa e o serviço é sempre cordial.,The food is delicious and the service is always courteous.,0.7906,positivo
+84,2023-03-25,"Ótima experiência, com ambiente agradável e equipe atenciosa.","Great experience, with a pleasant atmosphere and attentive staff.",0.8126,positivo
+85,2023-03-26,"Serviço impecável, porém a demora no preparo compromete a experiência.","Impeccable service, but the delay in preparation affects the experience.",-0.4497,negativo
+86,2023-03-27,Recomendo pela qualidade dos pratos e simpatia dos funcionários.,I recommend it for the quality of the dishes and the friendliness of the staff.,0.6705,positivo
+87,2023-03-28,O restaurante oferece um ótimo atendimento e pratos bem servidos.,The restaurant offers great service and well-served dishes.,0.6249,positivo
+88,2023-03-29,"O atendimento é bom, mas o preparo dos pratos demora demais.","The service is good, but the preparation of the dishes takes too long.",0.2382,positivo
+89,2023-03-30,Local agradável com decoração charmosa e pratos bem apresentados.,Pleasant place with charming decor and well-presented dishes.,0.7964,positivo
+90,2023-03-31,A comida tem um sabor único e o ambiente é acolhedor.,"The food has a unique taste, and the atmosphere is cozy.",0.0,neutro
+91,2023-04-01,Ambiente aconchegante e atendimento simpático; comida saborosa.,Cozy atmosphere and friendly service; tasty food.,0.4939,positivo
+92,2023-04-02,"Atendimento excelente, mas o tempo de preparo dos pratos é muito longo.","Excellent service, but the preparation time for dishes is too long.",0.3291,positivo
+93,2023-04-03,A comida é deliciosa e o serviço é sempre cordial.,The food is delicious and the service is always courteous.,0.7906,positivo
+94,2023-04-04,"Ótima experiência, com ambiente agradável e equipe atenciosa.","Great experience, with a pleasant atmosphere and attentive staff.",0.8126,positivo
+95,2023-04-05,"Serviço impecável, porém a demora no preparo compromete a experiência.","Impeccable service, but the delay in preparation affects the experience.",-0.4497,negativo
+96,2023-04-06,Recomendo pela qualidade dos pratos e simpatia dos funcionários.,I recommend it for the quality of the dishes and the friendliness of the staff.,0.6705,positivo
+97,2023-04-07,O restaurante oferece um ótimo atendimento e pratos bem servidos.,The restaurant offers great service and well-served dishes.,0.6249,positivo
+98,2023-04-08,"O atendimento é bom, mas o preparo dos pratos demora demais.","The service is good, but the preparation of the dishes takes too long.",0.2382,positivo
+99,2023-04-09,Local agradável com decoração charmosa e pratos bem apresentados.,Pleasant place with charming decor and well-presented dishes.,0.7964,positivo
+100,2023-04-10,A comida tem um sabor único e o ambiente é acolhedor.,"The food has a unique taste, and the atmosphere is cozy.",0.0,neutro
